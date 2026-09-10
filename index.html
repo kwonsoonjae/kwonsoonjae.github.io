@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171511">
+<title>Soonjae Kwon · KAIST · Impact AI</title>
+<meta name="description" content="Soonjae Kwon (권순재), Ph.D. Adjunct professor at KAIST and senior researcher at Impact AI. Field experiments on what generative AI changes on digital platforms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Dark is the default theme (user decision, 2026-09-10). Light palette kept below for reference. */
+  :root {
+    color-scheme: dark;
+    --paper: #171511;
+    --paper-2: #201d17;
+    --ink: #e9e5da;
+    --muted: #a39d8d;
+    --faint: #7d7869;
+    --line: #333027;
+    --accent: #d98e6a;
+    --accent-soft: rgba(217, 142, 106, .09);
+    --serif: "Source Serif 4", Georgia, serif;
+    --display: "Cormorant Garamond", Georgia, serif;
+    --sans: "Inter", -apple-system, sans-serif;
+  }
+  /* light palette (unused): paper #f6f4ee · paper-2 #edeae0 · ink #1c1a15 · muted #6f6a5c · faint #918c7e · line #ddd8ca · accent #8a2f2c */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--paper); }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- top nav ---------- */
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s;
+  }
+  .topbar.scrolled { border-color: var(--line); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .monogram { font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: .04em; }
+  .monogram em { font-style: italic; color: var(--accent); }
+  .topnav { display: flex; gap: 22px; font-family: var(--sans); }
+  .topnav a {
+    font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--faint); transition: color .25s; padding: 4px 0;
+  }
+  .topnav a:hover, .topnav a.on { color: var(--ink); box-shadow: 0 1.5px 0 var(--accent); }
+  @media (max-width: 820px) { .topnav { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 132px 0 72px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: .26em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 22px;
+  }
+  .eyebrow .dot { color: var(--faint); padding: 0 7px; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.12; letter-spacing: .005em;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { max-width: 540px; color: var(--muted); font-size: 17.5px; margin-bottom: 14px; }
+  .hero-sub strong { color: var(--ink); font-weight: 600; }
+  .hero-kr { font-size: 13.5px; color: var(--faint); letter-spacing: .14em; margin-bottom: 30px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; font-family: var(--sans); }
+  .btn {
+    font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    padding: 13px 24px; border: 1px solid var(--ink); border-radius: 999px;
+    transition: background .25s, color .25s, border-color .25s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.ghost { border-color: var(--line); color: var(--muted); }
+  .btn.ghost:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+
+  .portrait-block { position: relative; justify-self: end; width: min(100%, 460px); }
+  .portrait-block::before {
+    content: ""; position: absolute; inset: 28px -28px -28px 28px;
+    background: var(--paper-2); border: 1px solid var(--line); z-index: 0;
+  }
+  .portrait-block img {
+    position: relative; z-index: 1; display: block; width: 100%;
+    aspect-ratio: 2 / 3; object-fit: cover;
+    border: 1px solid var(--line); filter: saturate(.94) contrast(1.01);
+  }
+  .portrait-caption {
+    position: absolute; z-index: 2; left: -14px; bottom: 30px;
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 10px 16px; font-family: var(--sans);
+    font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+  }
+  .portrait-caption strong { color: var(--accent); font-weight: 600; }
+
+  /* ---------- stat strip ---------- */
+  .stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats .wrap {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .stat { padding: 30px 26px; border-left: 1px solid var(--line); }
+  .stat:first-child { border-left: 0; padding-left: 0; }
+  .stat-n { font-family: var(--serif); font-size: 33px; font-weight: 600; line-height: 1.1; font-variant-numeric: lining-nums; }
+  .stat-n span { font-family: var(--display); font-size: 21px; font-style: italic; color: var(--accent); }
+  .stat-l { font-family: var(--sans); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
+
+  /* ---------- shared section chrome ---------- */
+  section { padding: 84px 0 0; scroll-margin-top: 70px; }
+  .sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; }
+  .sec-num { font-family: var(--display); font-style: italic; font-size: 15px; color: var(--accent); }
+  .sec-title { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
+  .sec-head::after { content: ""; flex: 1; border-top: 1px solid var(--line); transform: translateY(-4px); }
+  .sec-lede {
+    font-family: var(--display); font-size: 30px; font-weight: 500;
+    line-height: 1.35; max-width: 640px; margin-bottom: 40px;
+  }
+  .sec-lede em { font-style: italic; color: var(--accent); }
+
+  /* ---------- three hats ---------- */
+  .hats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .hat { background: var(--paper); padding: 34px 30px 38px; transition: background .3s; }
+  .hat:hover { background: var(--accent-soft); }
+  .hat-num { font-family: var(--display); font-style: italic; font-size: 16px; color: var(--faint); margin-bottom: 18px; }
+  .hat h3 { font-family: var(--display); font-size: 27px; font-weight: 600; margin-bottom: 12px; }
+  .hat p { font-size: 15px; color: var(--muted); }
+  .hat p strong { color: var(--ink); font-weight: 600; }
+  .hat-foot { margin-top: 18px; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+  /* ---------- questions ---------- */
+  .qgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .qcard {
+    border: 1px solid var(--line); padding: 30px 30px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .3s, background .3s;
+    position: relative;
+  }
+  .qcard::after {
+    content: ""; position: absolute; top: -1px; left: 30px; width: 44px; height: 2px;
+    background: var(--accent); opacity: 0; transition: opacity .3s;
+  }
+  .qcard:hover { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+  .qcard:hover::after { opacity: 1; }
+  .qcard h3 { font-family: var(--display); font-size: 25px; font-weight: 600; line-height: 1.22; }
+  .qcard p { font-size: 15px; color: var(--muted); flex: 1; }
+  .qcard p strong { color: var(--ink); font-weight: 600; }
+  .q-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--sans); font-size: 10.5px; font-weight: 500;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
+    white-space: nowrap;
+  }
+  .chip.hot { border-color: transparent; background: var(--accent-soft); color: var(--accent); }
+
+  /* ---------- journey ---------- */
+  .journey { list-style: none; max-width: 720px; position: relative; padding-left: 26px; }
+  .journey::before { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .journey li { position: relative; padding: 0 0 26px; }
+  .journey li::before {
+    content: ""; position: absolute; left: -26px; top: 9px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--paper); border: 1.5px solid var(--faint);
+  }
+  .journey li.now::before { background: var(--accent); border-color: var(--accent); }
+  .j-when { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .j-what { font-family: var(--serif); font-size: 17px; font-weight: 600; margin: 3px 0 2px; }
+  .j-note { font-size: 14.5px; color: var(--muted); max-width: 560px; }
+
+  /* ---------- record (for academics) ---------- */
+  .record { background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 84px; padding: 72px 0; }
+  .record section { padding: 0; }
+  .rec-cols { display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; margin-top: 34px; }
+  .rec-label { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--muted); margin-bottom: 12px; }
+  .rec-list { list-style: none; font-size: 14.5px; }
+  .rec-list li { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); line-height: 1.55; }
+  .rec-list li:first-child { border-top: 1px solid var(--line); }
+  .rec-list strong { color: var(--ink); font-weight: 600; }
+  .rec-list .me { border-bottom: 1px solid var(--accent); }
+  .rec-list em { font-style: italic; }
+  .rec-list .chip { margin-left: 6px; vertical-align: 1px; }
+  .rec-gap { margin-top: 34px; }
+
+  /* ---------- contact ---------- */
+  .contact-lede { font-family: var(--display); font-size: clamp(26px, 3vw, 34px); font-weight: 500; line-height: 1.3; max-width: 820px; margin-bottom: 28px; }
+  .contact-lede em { font-style: italic; color: var(--accent); }
+  footer { border-top: 1px solid var(--line); margin-top: 84px; padding: 26px 0 40px; font-family: var(--sans); font-size: 12px; color: var(--faint); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 920px) {
+    .hero { padding-top: 104px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .portrait-block { justify-self: center; width: min(100% - 28px, 380px); order: -1; }
+    .stats .wrap { grid-template-columns: 1fr 1fr; }
+    .stat { padding: 22px 20px; }
+    .stat:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .hats { grid-template-columns: 1fr; }
+    .qgrid { grid-template-columns: 1fr; }
+    .rec-cols { grid-template-columns: 1fr; gap: 40px; }
+    .sec-lede { font-size: 25px; }
+  }
+
+  /* ---------- expandable entries (papers / projects) ---------- */
+  .entries { border-top: 1px solid var(--line); }
+  details.entry { border-bottom: 1px solid var(--line); }
+  details.entry summary {
+    list-style: none; cursor: pointer; padding: 20px 0;
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start;
+  }
+  details.entry summary::-webkit-details-marker { display: none; }
+  details.entry summary:hover .e-title { color: var(--accent); }
+  .e-title { font-family: var(--serif); font-weight: 600; font-size: 17px; color: var(--ink); line-height: 1.4; transition: color .2s; }
+  .e-meta { font-size: 14px; color: var(--muted); margin-top: 5px; }
+  .e-meta .me { border-bottom: 1px solid var(--accent); }
+  .e-meta .chip { margin-left: 6px; vertical-align: 1px; }
+  .e-hook { font-family: var(--display); font-style: italic; font-size: 16.5px; color: var(--accent); margin-top: 6px; }
+  .e-toggle {
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--faint); padding-top: 5px; white-space: nowrap;
+  }
+  .e-toggle::after { content: "Details +"; }
+  details[open] .e-toggle::after { content: "Close −"; }
+  .e-body { padding: 0 0 28px; max-width: 780px; }
+  .e-body p { font-size: 15px; color: var(--muted); margin-bottom: 12px; }
+  .e-body p strong { color: var(--ink); font-weight: 600; }
+  .e-lbl { font-family: var(--sans); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin: 16px 0 6px; }
+  .e-links a {
+    display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; margin: 4px 8px 0 0; color: var(--muted);
+    transition: border-color .2s, color .2s;
+  }
+  .e-links a:hover { border-color: var(--accent); color: var(--accent); }
+  .group-label { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--muted); margin: 38px 0 10px; }
+  .group-label:first-of-type { margin-top: 0; }
+  @media (max-width: 820px) {
+    details.entry summary { grid-template-columns: 1fr; gap: 8px; }
+    .e-toggle { padding-top: 0; }
+  }
+  .lede-links { margin: -18px 0 36px; }
+  .foot-links a { color: inherit; transition: color .2s; }
+  .foot-links a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="wrap">
+    <a class="monogram" href="#top">Soonjae Kwon</a>
+    <nav class="topnav" id="nav">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#record">Service</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Researcher <span class="dot">·</span> Educator <span class="dot">·</span> AI Builder</div>
+      <h1>I build AI systems,<br>then <em>measure</em> what<br>they change.</h1>
+      <p class="hero-sub">
+        My research uses generative AI to address societal questions on digital platforms,
+        combining econometric causal inference with deep learning methods such as generative and explainable AI.
+      </p>
+      <p class="hero-sub">
+        I teach <strong>AI Business Strategy</strong> at <strong>KAIST</strong> and build applied AI
+        at <strong>Impact AI</strong>, where the same ideas have to work in production.
+      </p>
+      <p class="hero-kr">권순재 · SEOUL, SOUTH KOREA</p>
+      <div class="cta-row">
+        <a class="btn" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="btn ghost" href="assets/Soonjae_Kwon_CV.pdf">Academic CV</a>
+      </div>
+    </div>
+    <div class="portrait-block">
+      <img src="assets/portrait.jpg" alt="Soonjae Kwon, upper-body portrait in a charcoal suit">
+      <div class="portrait-caption"><strong>Now</strong> &nbsp;KAIST · Impact AI</div>
+    </div>
+  </div>
+</header>
+<!-- ================= ABOUT / THREE HATS ================= -->
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">i.</span><span class="sec-title">What I do</span></div>
+    <div class="hats">
+      <div class="hat">
+        <div class="hat-num">01</div>
+        <h3>The Researcher</h3>
+        <p>I analyze <strong>large-scale behavioral data from live platforms</strong> and use causal inference to measure what generative AI changes in user behavior: who people match with, what they watch, how they learn. Three papers published in SSCI Q1 journals, two more in preparation.</p>
+        <div class="hat-foot">Information Systems · Causal inference</div>
+      </div>
+      <div class="hat">
+        <div class="hat-num">02</div>
+        <h3>The Educator</h3>
+        <p>At <strong>KAIST</strong> I teach AI Business Strategy to business school students. Earlier I taught Analytics Programming and Text Mining at UNIST, with course ratings of <strong>4.8</strong> and 4.7 out of 5.</p>
+        <div class="hat-foot">KAIST · Adjunct Professor</div>
+      </div>
+      <div class="hat">
+        <div class="hat-num">03</div>
+        <h3>The Builder</h3>
+        <p>At <strong>Impact AI</strong> I lead AI engineering for advertising automation. Before that I worked on five funded projects, including a demand forecasting SaaS, an advertiser and influencer matching engine, and a 3D asset classification model.</p>
+        <div class="hat-foot">Impact AI · Senior Researcher</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= EDUCATION ================= -->
+<section id="education" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">ii.</span><span class="sec-title">Education</span></div>
+    <ul class="journey">
+      <li class="now">
+        <div class="j-when">March 2022 – February 2026</div>
+        <div class="j-what">Ph.D. in Management Engineering, KAIST College of Business</div>
+        <div class="j-note">GPA 4.12/4.3 · Advisor: Sung-Hyuk Park.</div>
+      </li>
+      <li>
+        <div class="j-when">March 2020 – February 2022</div>
+        <div class="j-what">M.S. in Management Engineering, KAIST College of Business</div>
+        <div class="j-note">GPA 4.10/4.3 · KAIST Outstanding Thesis Award.</div>
+      </li>
+      <li>
+        <div class="j-when">March 2015 – February 2020</div>
+        <div class="j-what">B.S. in Chemistry, KAIST</div>
+        <div class="j-note">GPA 3.82/4.3 · National Science &amp; Technology Scholarship.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">iii.</span><span class="sec-title">Experience</span></div>
+    <ul class="journey">
+      <li class="now">
+        <div class="j-when">August 2026 — present</div>
+        <div class="j-what">Adjunct Professor, KAIST College of Business</div>
+        <div class="j-note">Teaching AI Business Strategy (Fall 2026).</div>
+      </li>
+      <li class="now">
+        <div class="j-when">May 2026 — present</div>
+        <div class="j-what">Senior Researcher, Impact AI</div>
+        <div class="j-note">AI-driven advertising automation and applied AI research.</div>
+      </li>
+      <li>
+        <div class="j-when">February – July 2023</div>
+        <div class="j-what">Lecturer, Ulsan National Institute of Science and Technology (UNIST)</div>
+        <div class="j-note">Analytics Programming (rated 4.8/5.0) and Text Mining (4.7/5.0).</div>
+      </li>
+    </ul>
+  </div>
+</section>
+<!-- ================= RESEARCH ================= -->
+<section id="research" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">iv.</span><span class="sec-title">Research</span></div>
+
+    <div class="group-label">Journal papers</div>
+    <div class="entries">
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">More, Shorter, Newer? How Monetization Reshapes Creator Strategy on YouTube Shorts</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Kitae Kim, Sung-Hyuk Park · <em>Internet Research</em>, 2026<span class="chip">SSCI Q1 · IF 7.2</span></div>
+            <div class="e-hook">When creators start getting paid, what do they make?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract</div>
+          <p><strong>Purpose.</strong> This study examines the causal impact of YouTube Shorts' ad-revenue sharing policy on creator production strategies in the short-form video creator economy.</p>
+          <p><strong>Design.</strong> Using 36,507 videos from 342 top global channels, we employ a regression discontinuity in time design. Computer vision techniques measure four attributes of each creator's production strategy: output volume, video length, editing pace, and content novelty.</p>
+          <p><strong>Findings.</strong> The policy drove an immediate reduction in video length without expanding output volume, consistent with substitution toward cheaper per-unit configurations rather than output scaling. Entertainment creators shortened their videos most sharply, while informative creators slowed their editing pace to preserve comprehension. Long-type creators pursued per-unit cost reduction, while short-type creators invested in content novelty.</p>
+          <p><strong>Implications.</strong> The quantity-expansion result from low-marginal-cost user-generated content settings does not extend to high-marginal-cost production, where incentives reallocate effort within existing output rather than expand it. A uniform monetization policy does not produce uniform outcomes.</p>
+          <div class="e-lbl">Earlier versions</div>
+          <p>KrAIS Summer Workshop 2023, Seoul.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://www.emerald.com/insight/publication/issn/1066-2243" target="_blank" rel="noopener">Journal page</a></div>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Beyond Homophily: AI-Driven Analysis of Facial and Personality Similarity Preferences in Online Dating</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Junkyu Jang, Sung-Hyuk Park · <em>Computers in Human Behavior</em>, 178, 2026, 108906<span class="chip">SSCI Q1 · IF 12.2</span></div>
+            <div class="e-hook">Do opposites attract, or do we swipe on ourselves?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract</div>
+          <p>Online dating platforms increasingly mediate human connection, yet the mechanisms by which users evaluate subjective traits like appearance and personality remain underexplored. To investigate these preference dynamics, this study applies AI-driven methods to a dataset of 506,014 interactions from 41,441 users on a major heterosexual dating platform in South Korea. By employing computer vision and large language models to quantify facial and personality similarity, our mixed-effects analysis reveals a significant gender asymmetry: women prefer facial similarity (homophily), whereas men exhibit a preference for facial dissimilarity (heterophily). Furthermore, personality preferences are found to be context-dependent; a partner's socioeconomic status moderates the demand for similarity, amplifying the preference for women while attenuating it for men in upward evaluation contexts. These findings offer actionable implications for the design of matching systems, suggesting that preferences in digitally mediated environments function as adaptive strategies shaped by gender and contextual cues.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://doi.org/10.1016/j.chb.2026.108906" target="_blank" rel="noopener">DOI 10.1016/j.chb.2026.108906</a></div>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Beauty vs. Vibe: Deconstructing Visual Appeal in Online Dating with Large Multimodal Models</div>
+            <div class="e-meta">Junkyu Jang, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park · <em>Computers in Human Behavior</em>, 173, 2025, 108792<span class="chip">SSCI Q1 · IF 12.2</span></div>
+            <div class="e-hook">What makes a profile photo actually work?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract</div>
+          <p>Online dating has become a social infrastructure, with over one-third of marriages originating from digital platforms. Despite its significance, our understanding of how users form impressions and make matching decisions remains limited. This study addresses this gap by proposing and testing a "Two-Pathway Heuristic Model" of impression formation, arguing that users evaluate profiles via two parallel pathways: an immediate, affective assessment of facial attractiveness and a more inferential assessment of social attractiveness (or vibe). Using data from 10,619 users on a major heterosexual dating platform in South Korea, we leverage a Large Multimodal Model (LMM) to quantify facial attractiveness and social attractiveness, decomposing the latter into its key components: social, economic, and cultural capital. Through econometric analyses, we examine both the independent and the interaction effects of these two pathways on matching success. Our findings reveal that while both facial attractiveness and social attractiveness are strong predictors of matching success, the effect of facial attractiveness is particularly decisive for male profiles. Furthermore, our analysis uncovers significant negative interaction effects, suggesting that when a user's facial attractiveness is already very high, adding strong signals of social or cultural capital yields diminishing returns. These results offer novel insights into the non-linear patterns of impression formation in digital environments and provide practical implications for both users and platform designers, suggesting a need for interfaces that showcase multi-dimensional aspects of identity beyond physical appearance.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://doi.org/10.1016/j.chb.2025.108792" target="_blank" rel="noopener">DOI 10.1016/j.chb.2025.108792</a></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="group-label">Working papers</div>
+    <div class="entries">
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">VISAGE: Designing AI Artifacts for Dynamic Self-Presentation on Matching Platforms</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee · in preparation for <em>MIS Quarterly</em></div>
+            <div class="e-hook">Can AI design a better you?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract (current draft)</div>
+          <p>Online matching platforms constrain users to static profiles, producing a mismatch between the idealized self a user presents and the heterogeneous preferences of potential partners. Drawing on self-discrepancy theory, we conceptualize this mismatch as an interpersonal gap between one's presented self and what each partner desires to see, with AI serving as a mediator to resolve it. Following the design science perspective, we propose VISAGE, an AI system comprising two artifacts grounded in distinct human-AI collaboration principles. The augmentation artifact selects optimal images from users' existing assets, whereas the assemblage artifact generates new images tailored to individual partner preferences. Using data from a major online dating platform, we evaluate VISAGE at both the user and platform levels. At the user level, model-predicted ratings suggest that both artifacts improve attractiveness ratings. Their relative effectiveness varies with partner-preference heterogeneity and user impression management skill. At the platform level, agent-based simulations suggest that VISAGE enhances matching efficiency and reduces inequality in matching opportunities, although optimal deployment strategies depend on the platform's recommendation algorithm.</p>
+          <div class="e-lbl">Earlier versions</div>
+          <p>WITS 2024, Bangkok · ICIS 2022, Copenhagen · WITS 2021, Austin.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6896599" target="_blank" rel="noopener">SSRN preprint</a></div>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Utility Without Loyalty: The Decoupling of Generative AI Performance and User Retention in Digital Platforms</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Yeolib Kim, Youjung Jun, Seung Hyun Kim, Sung-Hyuk Park · in preparation for <em>Information Systems Research</em></div>
+            <div class="e-hook">Can an AI instructor teach as well as a human?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract (current draft)</div>
+          <p>Online learning platforms have begun to replace human instructors with AI-generated instructors that present complete courses on screen. Whether this substitution supports actual learning behavior remains unsettled, because instruction bundles two different resources: the transmission of knowledge and the provision of emotional support. Drawing on mind perception theory, we propose that AI instruction fails selectively where learning consumes a feeling mind, and that it reaches learners through two separable representation layers: an identity cue that changes who learners believe the instructor is, and an embodied artifact that changes what learners see and hear. We examine this account with behavioral records from a large online learning platform (11,800 user–lecture observations from 2,784 matched users) and a three-condition randomized experiment (N = 298). In the field, the average AI–human difference in lecture completion was indistinguishable from zero, but the difference was 10.9 percentage points more negative in affective than in cognitive courses. In the experiment, labeling an otherwise identical human-delivered video as AI left perceived naturalness intact but reduced relational appraisals of the instructor and willingness to pay (−29%), whereas replacing the video with an embodied AI artifact lowered every appraisal.</p>
+          <div class="e-lbl">Earlier versions</div>
+          <p>CIST 2024, Seattle.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="group-label">Conference proceedings</div>
+    <div class="entries">
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Adaptive Hotel Rate Prediction Using External Data: A Competitor-Driven Approach</div>
+            <div class="e-meta">Jungwoo Kim, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park · Proceedings of the 58th Hawaii International Conference on System Sciences (HICSS), 2025</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Summary</div>
+          <p>Smaller independent hotels lack the occupancy data that large chains use for dynamic pricing. The paper proposes CAMP (Competitor-based Accommodation Market Pricing), which identifies competitors through hierarchical clustering and predicts rates from competitor prices and external signals such as regional search trends, weather, and economic indicators.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://scholarspace.manoa.hawaii.edu/items/d686250f-74d0-4300-8c0d-dac4ca5c085e" target="_blank" rel="noopener">HICSS ScholarSpace</a></div>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Learning Faces to Predict Matching Probability in an Online Matching Platform</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee · Proceedings of the 43rd International Conference on Information Systems (ICIS), 2022</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Abstract</div>
+          <p>With the increasing use of online matching platforms, predicting matching probability between users is crucial for efficient market design. Although previous studies have constructed various visual features to predict matching probability, facial features, which are important in online matching, have not been widely used. We find that deep learning-enabled facial features can significantly enhance the prediction accuracy of a user's partner preferences from the individual rating prediction analysis in an online dating market. We also build prediction models for each gender and use prior theories to explain different contributing factors of the models. Furthermore, we propose a novel method to visually interpret facial features using the generative adversarial network (GAN). Our work contributes the literature by providing a framework to develop and interpret facial features to investigate underlying mechanisms in online matching markets.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://aisel.aisnet.org/icis2022/digital_commerce/digital_commerce/9/" target="_blank" rel="noopener">AIS eLibrary</a></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">v.</span><span class="sec-title">Projects</span></div>
+
+    <div class="entries">
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Strategies for Utilizing Generative AI in Digital Platforms for a Sustainable Society</div>
+            <div class="e-meta">National Research Foundation of Korea · September 2024 – February 2026</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Funding</div>
+          <p>₩30,000,000</p>
+          <div class="e-lbl">Role</div>
+          <p>Lead research associate</p>
+          <div class="e-lbl">What I did</div>
+          <p>I analyzed the effects of generative AI adoption on digital platforms and derived utilization strategies from the results.</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Development of Intelligent Accumulation and Sharing Platform for Digital 3D Assets</div>
+            <div class="e-meta">Korea Creative Content Agency · April 2023 – December 2025</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Funding</div>
+          <p>₩140,000,000</p>
+          <div class="e-lbl">Role</div>
+          <p>Lead research associate</p>
+          <div class="e-lbl">What I did</div>
+          <p>I developed the deep learning model that classifies 3D assets for the accumulation and sharing platform.</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">SaaS Development for AI-Driven Demand Forecasting Using Deep Learning</div>
+            <div class="e-meta">Seoul Business Agency · August 2022 – July 2023</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Funding</div>
+          <p>₩56,800,000</p>
+          <div class="e-lbl">Role</div>
+          <p>Lead research associate</p>
+          <div class="e-lbl">What I did</div>
+          <p>I developed the deep learning demand forecasting model and prepared it to run as a SaaS service rather than a one-off analysis.</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Digital Innovation Capability Assessment and Activation Strategy for MCST</div>
+            <div class="e-meta">Ministry of Culture, Sports and Tourism · April 2022 – September 2022</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Funding</div>
+          <p>₩30,000,000</p>
+          <div class="e-lbl">Role</div>
+          <p>Lead research associate</p>
+          <div class="e-lbl">What I did</div>
+          <p>I developed the assessment tool that measures the ministry's digital innovation capability.</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">Deep Learning-Based Advertiser-Influencer Matching Engine Development</div>
+            <div class="e-meta">REVU Corporation · December 2020 – November 2022</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Funding</div>
+          <p>₩102,000,000</p>
+          <div class="e-lbl">Role</div>
+          <p>Research associate</p>
+          <div class="e-lbl">What I did</div>
+          <p>I analyzed the advertising data and developed the matching engine that pairs advertisers with influencers.</p>
+        </div>
+      </details>
+    </div>
+
+</section>
+<!-- ================= RECORD ================= -->
+<div class="record" id="record">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">vi.</span><span class="sec-title">Service &amp; Awards</span></div>
+    <div class="rec-cols">
+      <div>
+        <div class="rec-label">Academic service</div>
+        <ul class="rec-list">
+          <li><strong>Program committee</strong><br>WITS 2025, 2026 · KrAIS Summer Workshop 2023</li>
+          <li><strong>Journal reviewer</strong><br>Decision Sciences · Information Systems Frontiers</li>
+          <li><strong>Conference reviewer</strong><br>ICIS · CIST · WITS · HICSS · PACIS · KrAIS Summer Workshop</li>
+        </ul>
+      </div>
+      <div>
+        <div class="rec-label">Awards and honors</div>
+        <ul class="rec-list">
+          <li><strong>NRF Research Grant</strong><br>National Research Foundation of Korea · 2024 – 2026</li>
+          <li><strong>Travel Research Grant</strong><br>KAIST College of Business · 2023</li>
+          <li><strong>KAIST Outstanding Thesis Award</strong><br>KAIST College of Business · 2022</li>
+          <li><strong>Sim Hong-Ku Scholarship</strong><br>KAIST Department of Chemistry · 2019</li>
+          <li><strong>KoSEA Social Entrepreneurs Program</strong><br>Korea Social Enterprise Promotion Agency · 2018 · ₩30,000,000</li>
+          <li><strong>Runner-Up, KT&amp;G Startup Camp</strong><br>2018 · ₩20,000,000</li>
+          <li><strong>National Science &amp; Technology Scholarship</strong><br>Korea Student Aid Foundation · 2015 – 2018</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">vii.</span><span class="sec-title">Contact</span></div>
+    <p class="contact-lede">Open to research ideas, lectures, and collaborations.<br>Email is the best way to <em>reach me</em>.</p>
+    <div class="cta-row">
+      <a class="btn" href="mailto:soonjaekwon@kaist.ac.kr">soonjaekwon@kaist.ac.kr</a>
+      <a class="btn ghost" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="assets/Soonjae_Kwon_CV.pdf">Academic CV</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Soonjae Kwon · 권순재</span>
+    <span class="foot-links"><a href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a> · <a href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a> · <a href="mailto:soonjaekwon@kaist.ac.kr">Email</a></span>
+  </div>
+</footer>
+
+<script>
+  const bar = document.getElementById("topbar");
+  addEventListener("scroll", () => bar.classList.toggle("scrolled", scrollY > 10), { passive: true });
+
+  const links = [...document.querySelectorAll("#nav a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  const spy = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        const i = secs.indexOf(e.target);
+        links.forEach((a, j) => a.classList.toggle("on", i === j));
+      }
+    });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  secs.forEach(s => s && spy.observe(s));
+
+  const reveal = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); reveal.unobserve(e.target); } });
+  }, { threshold: .06 });
+  document.querySelectorAll(".reveal").forEach(el => reveal.observe(el));
+</script>
+</body>
+</html>
