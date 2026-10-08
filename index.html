@@ -299,15 +299,6 @@
     background: radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px) 0 0 / 22px 22px;
     -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent);
   }
-  /* spotlight follows the pointer: lime glow + brighter dots around it */
-  .hero::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(520px 380px at var(--mx, 78%) var(--my, 38%), rgba(220, 238, 177, .09), transparent 70%),
-      radial-gradient(rgba(220, 238, 177, .35) 1px, transparent 1px) 0 0 / 22px 22px;
-    -webkit-mask-image: radial-gradient(260px 260px at var(--mx, 78%) var(--my, 38%), #000, transparent 75%);
-    mask-image: radial-gradient(260px 260px at var(--mx, 78%) var(--my, 38%), #000, transparent 75%);
-  }
   .hero > .wrap { position: relative; z-index: 1; }
   .hero h1 { font-size: clamp(40px, 4.9vw, 68px); font-weight: 800; letter-spacing: -.045em; line-height: 1.02; }
   @media (min-width: 921px) { .hero-grid { align-items: center; grid-template-columns: 1.25fr 1fr; } }
@@ -343,10 +334,6 @@
   .hero h1 .w { display: inline-block; opacity: 0; transform: translateY(.35em); filter: blur(6px);
                 transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease; }
   .hero h1.go .w { opacity: 1; transform: none; filter: none; }
-  .hat::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-                background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), rgba(220, 238, 177, .09), transparent 60%); }
-  .hat:hover::after { opacity: 1; }
-  .hat:hover { background: var(--paper); }
   .js .stag > * { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
   .js .in .stag > *, .js .stag.in > * { opacity: 1; transform: none; }
   /* smooth open/close where supported (Chromium 131+); elsewhere it just snaps open */
@@ -358,6 +345,70 @@
     .hero h1 .w, .js .stag > * { opacity: 1; transform: none; filter: none; transition: none; }
     .nav-ink, details.entry::details-content { transition: none; }
   }
+  /* ---------- v4.7: buttons, contact, IS Atlas band ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13.5px; font-weight: 600; letter-spacing: -.005em; text-transform: none;
+    padding: 12px 16px 12px 18px; border-radius: 6px; border: 1px solid #333331; color: var(--ink);
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn::after { content: "→"; font-weight: 500; color: var(--faint); transition: transform .2s, color .2s; }
+  .btn[target="_blank"]::after { content: "↗"; }
+  .btn[href$=".pdf"]::after { content: "↓"; }
+  .btn:hover { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .btn:hover::after { color: var(--accent); transform: translateX(3px); }
+  .btn[target="_blank"]:hover::after { transform: translate(2px, -2px); }
+  .btn[href$=".pdf"]:hover::after { transform: translateY(2px); }
+  .btn.ghost { border-color: #333331; color: var(--muted); }
+  .btn.ghost:hover { border-color: var(--ink); color: var(--ink); }
+  .btn:not(.ghost) { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+  .btn:not(.ghost)::after { color: rgba(10, 10, 10, .55); }
+  .btn:not(.ghost):hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .btn:not(.ghost):hover::after { color: var(--paper); }
+  .e-links a { border-radius: 5px; text-transform: none; letter-spacing: 0; font-size: 12.5px; padding: 6px 12px; }
+  .e-links a::after { content: " ↗"; color: var(--faint); }
+  .chip { border-radius: 4px; }
+
+  #contact .contact-lede { font-size: 19px; font-weight: 500; letter-spacing: -.005em; line-height: 1.55; color: var(--muted); max-width: 640px; margin-bottom: 26px; }
+  #contact .contact-lede em { color: var(--ink); }
+
+  .atlas { margin-top: 96px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+           background: linear-gradient(180deg, var(--paper-2), var(--paper)); padding: 72px 0; }
+  .atlas-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: start; }
+  .atlas-k { font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .atlas-name { font-size: clamp(34px, 4.2vw, 56px); font-weight: 800; letter-spacing: -.04em; line-height: 1; margin-bottom: 18px; }
+  .atlas-sub { color: var(--muted); font-size: 15.5px; max-width: 440px; margin-bottom: 28px; }
+  .atlas-stats { display: flex; gap: 36px; margin-bottom: 30px; }
+  .atlas-stats dt { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
+  .atlas-stats dd { font-size: 26px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .atlas-live { border: 1px solid var(--line); border-radius: 10px; padding: 26px 28px; background: rgba(10, 10, 10, .5); }
+  .atlas-lbl { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  .atlas-lbl + .atlas-list, .atlas-lbl + .atlas-topics { margin-bottom: 24px; }
+  .atlas-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(220, 238, 177, .6); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 7px rgba(220, 238, 177, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 238, 177, 0); } }
+  .atlas-list { list-style: none; border-top: 1px solid var(--line); }
+  .atlas-list li { border-bottom: 1px solid var(--line); }
+  .atlas-list a { display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: baseline; padding: 12px 0; transition: color .2s, padding .2s; }
+  .atlas-list a:hover { color: var(--accent); padding-left: 6px; }
+  .atlas-list .v { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+  .atlas-list .t { font-size: 14.5px; font-weight: 600; line-height: 1.4; }
+  .atlas-list .d { font-size: 12px; color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .atlas-ph a { display: block; padding: 12px 0; color: var(--muted); font-size: 14.5px; }
+  .atlas-topics { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .atlas-topics a { display: inline-flex; gap: 8px; align-items: baseline; font-size: 13px; padding: 7px 11px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); transition: border-color .2s; }
+  .atlas-topics a:hover { border-color: var(--accent); }
+  .atlas-topics b { font-size: 12px; color: var(--accent); font-weight: 700; }
+  .atlas-topics .atlas-ph a { border: 0; padding: 0; color: var(--muted); }
+  .atlas-foot { font-size: 11.5px; color: var(--faint); }
+  .atlas + .record { margin-top: 0; border-top: 0; }
+  .sec-head + .entries { border-top: 0; }
+  @media (max-width: 920px) {
+    .atlas-grid { grid-template-columns: 1fr; gap: 40px; }
+    .atlas-live { padding: 20px; }
+    .atlas-list a { grid-template-columns: 44px 1fr; }
+    .atlas-list .d { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .atlas-dot { animation: none; } }
 </style>
 </head>
 <body>
@@ -611,7 +662,6 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">v.</span><span class="sec-title">Projects</span></div>
 
-    <div class="group-label">Funded research</div>
     <div class="entries stag">
       <details class="entry">
         <summary>
@@ -700,29 +750,33 @@
       </details>
     </div>
 
-    <div class="group-label">Independent</div>
-    <div class="entries stag">
-      <details class="entry">
-        <summary>
-          <div>
-            <div class="e-title">IS Atlas: A Research Map for Information Systems Scholars</div>
-            <div class="e-meta">isatlas.org · 2026 – present</div>
-            <div class="e-hook">What did the top IS journals publish this week?</div>
-          </div>
-          <div class="e-toggle"></div>
-        </summary>
-        <div class="e-body">
-          <div class="e-lbl">Role</div>
-          <p>Creator and developer</p>
-          <div class="e-lbl">What I did</div>
-          <p>I built and run a public website that collects new papers from the top IS journals every week and maps them by research trend, author, and coauthor network. Anyone can browse without an account; members sign in with Google or ORCID to follow topics and save papers.</p>
-          <div class="e-lbl">Links</div>
-          <div class="e-links"><a href="https://isatlas.org/" target="_blank" rel="noopener">isatlas.org</a></div>
-        </div>
-      </details>
-    </div>
 
 </section>
+<!-- ================= IS ATLAS (feature band, not a CV section) ================= -->
+<div class="atlas" id="atlas">
+  <div class="wrap reveal">
+    <div class="atlas-grid">
+      <div class="atlas-intro">
+        <div class="atlas-k">Side project</div>
+        <h2 class="atlas-name">IS Atlas</h2>
+        <p class="atlas-sub">A public research map of the top IS journals that I build and run. New papers, research trends, and coauthor networks, updated every week.</p>
+        <dl class="atlas-stats">
+          <div><dt>Papers</dt><dd data-k="n_papers">24,000+</dd></div>
+          <div><dt>Journals</dt><dd data-k="n_journals">9</dd></div>
+          <div><dt>Authors</dt><dd data-k="n_authors">25,000+</dd></div>
+        </dl>
+        <div class="cta-row"><a class="btn" href="https://isatlas.org/" target="_blank" rel="noopener">Open IS Atlas</a></div>
+      </div>
+      <div class="atlas-live" aria-live="polite">
+        <div class="atlas-lbl">Latest in ISR · MISQ · JMIS <span class="atlas-dot" hidden></span></div>
+        <ol class="atlas-list" id="atlas-latest"><li class="atlas-ph"><a href="https://isatlas.org/latest" target="_blank" rel="noopener">See this week&rsquo;s papers on IS Atlas</a></li></ol>
+        <div class="atlas-lbl" title="Share of papers in the last three years against the years before">Rising topics</div>
+        <ul class="atlas-topics" id="atlas-rising"><li class="atlas-ph"><a href="https://isatlas.org/field" target="_blank" rel="noopener">Research trends on IS Atlas</a></li></ul>
+        <div class="atlas-foot" id="atlas-foot">Live from isatlas.org</div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ================= RECORD ================= -->
 <div class="record" id="record">
   <div class="wrap reveal">
@@ -838,25 +892,34 @@
     requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
   }
 
-  // hero spotlight + card spotlight follow the pointer
-  const hero = document.querySelector(".hero");
-  hero.addEventListener("pointermove", e => {
-    const r = hero.getBoundingClientRect();
-    hero.style.setProperty("--mx", (e.clientX - r.left) + "px");
-    hero.style.setProperty("--my", (e.clientY - r.top) + "px");
-  });
-  document.querySelectorAll(".hat").forEach(c => c.addEventListener("pointermove", e => {
-    const r = c.getBoundingClientRect();
-    c.style.setProperty("--x", (e.clientX - r.left) + "px");
-    c.style.setProperty("--y", (e.clientY - r.top) + "px");
-  }));
-
   // staggered reveal for list children
   document.querySelectorAll(".stag").forEach(g => {
     [...g.children].forEach((c, k) => c.style.transitionDelay = Math.min(k, 8) * 60 + "ms");
     if (!g.closest(".reveal")) reveal.observe(g);
   });
 
+  /* ---------- IS Atlas live data (isatlas.org/showcase.json, CORS for this site only) ---------- */
+  (async () => {
+    try {
+      const r = await fetch("https://isatlas.org/showcase.json", { mode: "cors" });
+      if (!r.ok) return;
+      const d = await r.json();
+      const fmt = n => Number(n).toLocaleString("en-US");
+      document.querySelectorAll(".atlas-stats dd[data-k]").forEach(el => { if (d[el.dataset.k]) el.textContent = fmt(d[el.dataset.k]); });
+      const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const mon = s => s ? new Date(s + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+      if (d.latest && d.latest.length) {
+        document.getElementById("atlas-latest").innerHTML = d.latest.map(p =>
+          `<li><a href="${esc(p.url)}" target="_blank" rel="noopener"><span class="v">${esc(p.venue)}</span><span class="t">${esc(p.title)}</span><span class="d">${mon(p.date)}</span></a></li>`).join("");
+        document.querySelector(".atlas-dot").hidden = false;
+      }
+      if (d.rising && d.rising.length) {
+        document.getElementById("atlas-rising").innerHTML = d.rising.map(t =>
+          `<li><a href="https://isatlas.org/field" target="_blank" rel="noopener">${esc(t.name)} <b>×${esc(t.ratio)}</b></a></li>`).join("");
+      }
+      if (d.updated) document.getElementById("atlas-foot").textContent = `Live from isatlas.org · digest of ${mon(d.updated)}`;
+    } catch (e) { /* static fallback stays */ }
+  })();
 </script>
 </body>
 </html>
