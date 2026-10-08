@@ -25,9 +25,11 @@
 <meta name="twitter:title" content="Soonjae Kwon · KAIST">
 <meta name="twitter:description" content="Adjunct professor at KAIST and senior researcher at Impact AI.">
 <meta name="twitter:image" content="https://kwonsoonjae.github.io/assets/og-card.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Inter only fills accented Latin that Pretendard lacks; loaded without holding the first paint -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" media="print" onload="this.media='all'">
 <style>
   /* Dark is the default theme (2026-09-10). Palette = lecture Figma spec (2026-09-11): near-black + lime #dceeb1. Previous warm dark: paper #171511 · paper-2 #201d17 · ink #e9e5da · accent #d98e6a. */
   :root {
@@ -40,19 +42,22 @@
     --line: #262626;
     --accent: #dceeb1;
     --accent-soft: rgba(220, 238, 177, .10);
-    --serif: "Source Serif 4", Georgia, serif;
-    --display: "Cormorant Garamond", Georgia, serif;
-    --sans: "Inter", -apple-system, sans-serif;
+    /* one face everywhere, same stack as IS Atlas (Pretendard has no italic: emphasis = accent colour) */
+    --sans: "Pretendard Variable", Pretendard, Inter, -apple-system, BlinkMacSystemFont,
+            "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+    --serif: var(--sans);
+    --display: var(--sans);
   }
   /* light palette (unused): paper #f6f4ee · paper-2 #edeae0 · ink #1c1a15 · muted #6f6a5c · faint #918c7e · line #ddd8ca · accent #8a2f2c */
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; font-synthesis: none; }
   body {
     background: var(--paper);
     color: var(--ink);
     font-family: var(--serif);
-    font-size: 16.5px;
+    font-size: 16px;
     line-height: 1.65;
+    word-break: keep-all;
     -webkit-font-smoothing: antialiased;
   }
   ::selection { background: var(--accent); color: var(--paper); }
@@ -69,8 +74,8 @@
   }
   .topbar.scrolled { border-color: var(--line); }
   .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .monogram { font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: .04em; }
-  .monogram em { font-style: italic; color: var(--accent); }
+  .monogram { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+  .monogram em { font-style: normal; color: var(--accent); }
   .topnav { display: flex; gap: 22px; font-family: var(--sans); }
   .topnav a {
     font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
@@ -94,13 +99,13 @@
   }
   .eyebrow .dot { color: var(--faint); padding: 0 7px; }
   .hero h1 {
-    font-family: var(--display); font-weight: 500;
-    font-size: clamp(38px, 5vw, 58px);
-    line-height: 1.12; letter-spacing: .005em;
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(34px, 4.3vw, 52px);
+    line-height: 1.18; letter-spacing: -.025em;
     margin-bottom: 24px;
   }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero-sub { max-width: 540px; color: var(--muted); font-size: 17.5px; margin-bottom: 14px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { max-width: 540px; color: var(--muted); font-size: 16.5px; margin-bottom: 14px; }
   .hero-sub + .cta-row { margin-top: 30px; }
   .hero-sub strong { color: var(--ink); font-weight: 600; }
   .hero-kr { font-size: 13.5px; color: var(--faint); letter-spacing: .14em; margin-bottom: 30px; }
@@ -140,27 +145,27 @@
   .stat { padding: 30px 26px; border-left: 1px solid var(--line); }
   .stat:first-child { border-left: 0; padding-left: 0; }
   .stat-n { font-family: var(--serif); font-size: 33px; font-weight: 600; line-height: 1.1; font-variant-numeric: lining-nums; }
-  .stat-n span { font-family: var(--display); font-size: 21px; font-style: italic; color: var(--accent); }
+  .stat-n span { font-family: var(--display); font-size: 21px; font-style: normal; color: var(--accent); }
   .stat-l { font-family: var(--sans); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
 
   /* ---------- shared section chrome ---------- */
   section { padding: 84px 0 0; scroll-margin-top: 70px; }
   .sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; }
-  .sec-num { font-family: var(--display); font-style: italic; font-size: 15px; color: var(--accent); }
+  .sec-num { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--accent); }
   .sec-title { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
   .sec-head::after { content: ""; flex: 1; border-top: 1px solid var(--line); transform: translateY(-4px); }
   .sec-lede {
     font-family: var(--display); font-size: 30px; font-weight: 500;
     line-height: 1.35; max-width: 640px; margin-bottom: 40px;
   }
-  .sec-lede em { font-style: italic; color: var(--accent); }
+  .sec-lede em { font-style: normal; color: var(--accent); }
 
   /* ---------- three hats ---------- */
   .hats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
   .hat { background: var(--paper); padding: 34px 30px 38px; transition: background .3s; }
   .hat:hover { background: var(--accent-soft); }
-  .hat-num { font-family: var(--display); font-style: italic; font-size: 16px; color: var(--faint); margin-bottom: 18px; }
-  .hat h3 { font-family: var(--display); font-size: 27px; font-weight: 600; margin-bottom: 12px; }
+  .hat-num { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--faint); margin-bottom: 18px; }
+  .hat h3 { font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: -.015em; margin-bottom: 12px; }
   .hat p { font-size: 15px; color: var(--muted); }
   .hat p strong { color: var(--ink); font-weight: 600; }
   .hat-foot { margin-top: 18px; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
@@ -202,26 +207,26 @@
   }
   .journey li.now::before { background: var(--accent); border-color: var(--accent); }
   .j-when { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
-  .j-what { font-family: var(--serif); font-size: 17px; font-weight: 600; margin: 3px 0 2px; }
+  .j-what { font-family: var(--serif); font-size: 16px; font-weight: 600; margin: 3px 0 2px; }
   .j-note { font-size: 14.5px; color: var(--muted); max-width: 560px; }
 
   /* ---------- record (for academics) ---------- */
   .record { background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 84px; padding: 72px 0; }
   .record section { padding: 0; }
   .rec-cols { display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; margin-top: 34px; }
-  .rec-label { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--muted); margin-bottom: 12px; }
+  .rec-label { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--muted); margin-bottom: 12px; }
   .rec-list { list-style: none; font-size: 14.5px; }
   .rec-list li { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); line-height: 1.55; }
   .rec-list li:first-child { border-top: 1px solid var(--line); }
   .rec-list strong { color: var(--ink); font-weight: 600; }
   .rec-list .me { border-bottom: 1px solid var(--accent); }
-  .rec-list em { font-style: italic; }
+  .rec-list em { font-style: normal; }
   .rec-list .chip { margin-left: 6px; vertical-align: 1px; }
   .rec-gap { margin-top: 34px; }
 
   /* ---------- contact ---------- */
-  .contact-lede { font-family: var(--display); font-size: clamp(26px, 3vw, 34px); font-weight: 500; line-height: 1.3; max-width: 820px; margin-bottom: 28px; }
-  .contact-lede em { font-style: italic; color: var(--accent); }
+  .contact-lede { font-family: var(--display); font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; letter-spacing: -.02em; line-height: 1.3; max-width: 820px; margin-bottom: 28px; }
+  .contact-lede em { font-style: normal; color: var(--accent); }
   footer { border-top: 1px solid var(--line); margin-top: 84px; padding: 26px 0 40px; font-family: var(--sans); font-size: 12px; color: var(--faint); }
   footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
@@ -257,11 +262,11 @@
   }
   details.entry summary::-webkit-details-marker { display: none; }
   details.entry summary:hover .e-title { color: var(--accent); }
-  .e-title { font-family: var(--serif); font-weight: 600; font-size: 17px; color: var(--ink); line-height: 1.4; transition: color .2s; }
+  .e-title { font-family: var(--serif); font-weight: 600; font-size: 16.5px; color: var(--ink); line-height: 1.4; transition: color .2s; }
   .e-meta { font-size: 14px; color: var(--muted); margin-top: 5px; }
   .e-meta .me { border-bottom: 1px solid var(--accent); }
   .e-meta .chip { margin-left: 6px; vertical-align: 1px; }
-  .e-hook { font-family: var(--display); font-style: italic; font-size: 16.5px; color: var(--accent); margin-top: 6px; }
+  .e-hook { font-family: var(--display); font-size: 14.5px; color: var(--accent); margin-top: 6px; }
   .e-toggle {
     font-family: var(--sans); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
     color: var(--faint); padding-top: 5px; white-space: nowrap;
@@ -278,7 +283,7 @@
     transition: border-color .2s, color .2s;
   }
   .e-links a:hover { border-color: var(--accent); color: var(--accent); }
-  .group-label { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--muted); margin: 38px 0 10px; }
+  .group-label { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--muted); margin: 38px 0 10px; }
   .group-label:first-of-type { margin-top: 0; }
   @media (max-width: 820px) {
     details.entry summary { grid-template-columns: 1fr; gap: 8px; }
@@ -350,7 +355,7 @@
       <div class="hat">
         <div class="hat-num">03</div>
         <h3>The Builder</h3>
-        <p>At <strong>Impact AI</strong> I lead AI engineering for advertising automation. Before that I worked on five funded projects, including a demand forecasting SaaS, an advertiser and influencer matching engine, and a 3D asset classification model.</p>
+        <p>At <strong>Impact AI</strong> I lead AI engineering for advertising automation. Before that I worked on five funded projects, including a demand forecasting SaaS, an advertiser and influencer matching engine, and a 3D asset classification model. On the side I built <strong>IS Atlas</strong>, a public research map of the top IS journals.</p>
         <div class="hat-foot">Impact AI · Senior Researcher</div>
       </div>
     </div>
@@ -413,7 +418,7 @@
         <summary>
           <div>
             <div class="e-title">More, Shorter, Newer? How Monetization Reshapes Creator Strategy on YouTube Shorts</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Kitae Kim, Sung-Hyuk Park · <em>Internet Research</em>, 2026<span class="chip">SSCI Q1 · IF 7.2</span></div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Kitae Kim, Sung-Hyuk Park · <em>Internet Research</em>, 2026, online first<span class="chip">SSCI Q1 · IF 7.2</span></div>
             <div class="e-hook">When creators start getting paid, what do they make?</div>
           </div>
           <div class="e-toggle"></div>
@@ -427,7 +432,7 @@
           <div class="e-lbl">Earlier versions</div>
           <p>KrAIS Summer Workshop 2023, Seoul.</p>
           <div class="e-lbl">Links</div>
-          <div class="e-links"><a href="https://www.emerald.com/insight/publication/issn/1066-2243" target="_blank" rel="noopener">Journal page</a></div>
+          <div class="e-links"><a href="https://doi.org/10.1108/INTR-07-2025-1078" target="_blank" rel="noopener">DOI 10.1108/INTR-07-2025-1078</a></div>
         </div>
       </details>
       <details class="entry">
@@ -542,6 +547,7 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">v.</span><span class="sec-title">Projects</span></div>
 
+    <div class="group-label">Funded research</div>
     <div class="entries">
       <details class="entry">
         <summary>
@@ -626,6 +632,28 @@
           <p>Research associate</p>
           <div class="e-lbl">What I did</div>
           <p>I analyzed the advertising data and developed the matching engine that pairs advertisers with influencers.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="group-label">Independent</div>
+    <div class="entries">
+      <details class="entry">
+        <summary>
+          <div>
+            <div class="e-title">IS Atlas: A Research Map for Information Systems Scholars</div>
+            <div class="e-meta">isatlas.org · 2026 – present</div>
+            <div class="e-hook">What did the top IS journals publish this week?</div>
+          </div>
+          <div class="e-toggle"></div>
+        </summary>
+        <div class="e-body">
+          <div class="e-lbl">Role</div>
+          <p>Creator and developer</p>
+          <div class="e-lbl">What I did</div>
+          <p>I built and run a public website that collects new papers from the top IS journals every week and maps them by research trend, author, and coauthor network. Anyone can browse without an account; members sign in with Google or ORCID to follow topics and save papers.</p>
+          <div class="e-lbl">Links</div>
+          <div class="e-links"><a href="https://isatlas.org/" target="_blank" rel="noopener">isatlas.org</a></div>
         </div>
       </details>
     </div>
