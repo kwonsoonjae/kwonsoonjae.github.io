@@ -296,14 +296,21 @@
   .hero { position: relative; }
   .hero::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(600px 420px at 78% 38%, rgba(220, 238, 177, .10), transparent 70%),
-      radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px) 0 0 / 22px 22px;
+    background: radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px) 0 0 / 22px 22px;
     -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent);
   }
+  /* spotlight follows the pointer: lime glow + brighter dots around it */
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(520px 380px at var(--mx, 78%) var(--my, 38%), rgba(220, 238, 177, .09), transparent 70%),
+      radial-gradient(rgba(220, 238, 177, .35) 1px, transparent 1px) 0 0 / 22px 22px;
+    -webkit-mask-image: radial-gradient(260px 260px at var(--mx, 78%) var(--my, 38%), #000, transparent 75%);
+    mask-image: radial-gradient(260px 260px at var(--mx, 78%) var(--my, 38%), #000, transparent 75%);
+  }
+  .hero > .wrap { position: relative; z-index: 1; }
   .hero h1 { font-size: clamp(40px, 4.9vw, 68px); font-weight: 800; letter-spacing: -.045em; line-height: 1.02; }
   @media (min-width: 921px) { .hero-grid { align-items: center; grid-template-columns: 1.25fr 1fr; } }
-  .portrait-block::before { background: var(--accent); border-color: var(--accent); opacity: .9; }
   .btn:not(.ghost) { background: var(--accent); color: var(--paper); border-color: var(--accent); }
   .btn:not(.ghost):hover { background: var(--ink); border-color: var(--ink); }
 
@@ -316,7 +323,6 @@
   .hat::before { content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 0; background: var(--accent); transition: width .35s; }
   .hat:hover::before { width: 100%; }
   .hat h3 { font-size: 26px; font-weight: 800; letter-spacing: -.03em; }
-  .hat-num { font-size: 44px; font-weight: 800; letter-spacing: -.04em; line-height: 1; margin-bottom: 22px; color: transparent; -webkit-text-stroke: 1px #3a3a38; }
 
   .e-title { font-size: 18px; font-weight: 700; letter-spacing: -.015em; }
   .group-label { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); }
@@ -326,21 +332,37 @@
   details.entry summary:hover::before, details[open].entry summary::before { transform: none; }
   .journey li.now::before { box-shadow: 0 0 0 5px rgba(220, 238, 177, .15); }
 
-  .record { margin-bottom: 0; }
-  #contact { background: var(--accent); color: var(--paper); padding: 90px 0 96px; margin-top: 0; }
-  #contact .sec-num, #contact .contact-lede em { color: var(--paper); }
-  #contact .sec-head { border-color: rgba(0, 0, 0, .2); }
-  #contact .contact-lede { font-size: clamp(30px, 3.8vw, 54px); font-weight: 800; letter-spacing: -.04em; line-height: 1.08; max-width: 1100px; }
-  #contact .contact-lede em { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
-  #contact .btn { border-color: var(--paper); color: var(--paper); background: transparent; }
-  #contact .btn:not(.ghost) { background: var(--paper); color: var(--accent); }
-  #contact .btn:hover { background: var(--paper); color: var(--accent); }
-  footer { margin-top: 0; }
   @media (prefers-reduced-motion: reduce) { .hat::before, details.entry summary, details.entry summary::before { transition: none; } }
+  /* ---------- v4.6 interaction ---------- */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; background: var(--accent);
+              transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+  .topnav { position: relative; }
+  .topnav a:hover, .topnav a.on { box-shadow: none; }
+  .nav-ink { position: absolute; bottom: -6px; height: 1.5px; background: var(--accent); left: 0; width: 0; opacity: 0;
+             transition: transform .35s cubic-bezier(.2,.7,.2,1), width .35s cubic-bezier(.2,.7,.2,1), opacity .2s; }
+  .hero h1 .w { display: inline-block; opacity: 0; transform: translateY(.35em); filter: blur(6px);
+                transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease; }
+  .hero h1.go .w { opacity: 1; transform: none; filter: none; }
+  .hat::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+                background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), rgba(220, 238, 177, .09), transparent 60%); }
+  .hat:hover::after { opacity: 1; }
+  .hat:hover { background: var(--paper); }
+  .js .stag > * { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .js .in .stag > *, .js .stag.in > * { opacity: 1; transform: none; }
+  /* smooth open/close where supported (Chromium 131+); elsewhere it just snaps open */
+  :root { interpolate-size: allow-keywords; }
+  details.entry::details-content { height: 0; overflow: clip; opacity: 0;
+    transition: height .35s cubic-bezier(.2,.7,.2,1), opacity .3s ease, content-visibility .35s allow-discrete; }
+  details.entry[open]::details-content { height: auto; opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1 .w, .js .stag > * { opacity: 1; transform: none; filter: none; transition: none; }
+    .nav-ink, details.entry::details-content { transition: none; }
+  }
 </style>
 </head>
 <body>
 
+<div class="progress" id="progress"></div>
 <div class="topbar" id="topbar">
   <div class="wrap">
     <a class="monogram" href="#top">Soonjae Kwon</a>
@@ -384,21 +406,18 @@
 <section id="about" class="reveal">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">i.</span><span class="sec-title">What I do</span></div>
-    <div class="hats">
+    <div class="hats stag">
       <div class="hat">
-        <div class="hat-num">01</div>
         <h3>The Researcher</h3>
         <p>I analyze <strong>large-scale behavioral data from live platforms</strong> and use causal inference to measure what generative AI changes in user behavior: who people match with, what they watch, how they learn.</p>
         <div class="hat-foot">Information Systems · Gen AI</div>
       </div>
       <div class="hat">
-        <div class="hat-num">02</div>
         <h3>The Educator</h3>
         <p>At <strong>KAIST</strong> I teach AI Business Strategy to business school students. Earlier I taught Analytics Programming and Text Mining at UNIST, with course ratings of <strong>4.8</strong> and 4.7 out of 5.</p>
         <div class="hat-foot">KAIST · Adjunct Professor</div>
       </div>
       <div class="hat">
-        <div class="hat-num">03</div>
         <h3>The Builder</h3>
         <p>At <strong>Impact AI</strong> I develop the AI behind ADOASIS, an advertising automation service, and industrial AI for partner firms. I also built <strong>IS Atlas</strong>, a public research map of the top IS journals.</p>
         <div class="hat-foot">Impact AI · Senior Researcher</div>
@@ -410,7 +429,7 @@
 <section id="education" class="reveal">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">ii.</span><span class="sec-title">Education</span></div>
-    <ul class="journey">
+    <ul class="journey stag">
       <li class="now">
         <div class="j-when">March 2022 – February 2026</div>
         <div class="j-what">Ph.D. in Management Engineering, KAIST College of Business</div>
@@ -433,7 +452,7 @@
 <section id="experience" class="reveal">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">iii.</span><span class="sec-title">Experience</span></div>
-    <ul class="journey">
+    <ul class="journey stag">
       <li class="now">
         <div class="j-when">August 2026 — present</div>
         <div class="j-what">Adjunct Professor, KAIST College of Business</div>
@@ -458,7 +477,7 @@
     <div class="sec-head"><span class="sec-num">iv.</span><span class="sec-title">Research</span></div>
 
     <div class="group-label">Journal papers</div>
-    <div class="entries">
+    <div class="entries stag">
       <details class="entry">
         <summary>
           <div>
@@ -515,7 +534,7 @@
     </div>
 
     <div class="group-label">Working papers</div>
-    <div class="entries">
+    <div class="entries stag">
       <details class="entry">
         <summary>
           <div>
@@ -553,7 +572,7 @@
     </div>
 
     <div class="group-label">Conference proceedings</div>
-    <div class="entries">
+    <div class="entries stag">
       <details class="entry">
         <summary>
           <div>
@@ -593,7 +612,7 @@
     <div class="sec-head"><span class="sec-num">v.</span><span class="sec-title">Projects</span></div>
 
     <div class="group-label">Funded research</div>
-    <div class="entries">
+    <div class="entries stag">
       <details class="entry">
         <summary>
           <div>
@@ -682,7 +701,7 @@
     </div>
 
     <div class="group-label">Independent</div>
-    <div class="entries">
+    <div class="entries stag">
       <details class="entry">
         <summary>
           <div>
@@ -711,7 +730,7 @@
     <div class="rec-cols">
       <div>
         <div class="rec-label">Academic service</div>
-        <ul class="rec-list">
+        <ul class="rec-list stag">
           <li><strong>Program committee</strong><br>WITS 2025, 2026 · KrAIS Summer Workshop 2023</li>
           <li><strong>Journal reviewer</strong><br>Decision Sciences · Information Systems Frontiers</li>
           <li><strong>Conference reviewer</strong><br>ICIS · CIST · WITS · HICSS · PACIS · KrAIS Summer Workshop</li>
@@ -719,7 +738,7 @@
       </div>
       <div>
         <div class="rec-label">Awards and honors</div>
-        <ul class="rec-list">
+        <ul class="rec-list stag">
           <li><strong>NRF Research Grant</strong><br>National Research Foundation of Korea · 2024 – 2026</li>
           <li><strong>Travel Research Grant</strong><br>KAIST College of Business · 2023</li>
           <li><strong>KAIST Outstanding Thesis Award</strong><br>KAIST College of Business · 2022</li>
@@ -772,6 +791,72 @@
     es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); reveal.unobserve(e.target); } });
   }, { threshold: .06 });
   document.querySelectorAll(".reveal").forEach(el => reveal.observe(el));
+  /* ---------- v4.6 interaction ---------- */
+  document.documentElement.classList.add("js");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // scroll progress
+  const prog = document.getElementById("progress");
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // sliding nav underline
+  const nav = document.getElementById("nav");
+  const ink = document.createElement("span"); ink.className = "nav-ink"; nav.appendChild(ink);
+  const moveInk = a => {
+    if (!a) { ink.style.opacity = 0; return; }
+    ink.style.opacity = 1; ink.style.width = a.offsetWidth + "px";
+    ink.style.transform = `translateX(${a.offsetLeft}px)`;
+  };
+  new MutationObserver(() => moveInk(nav.querySelector("a.on"))).observe(nav, { subtree: true, attributeFilter: ["class"] });
+  links.forEach(a => {
+    a.addEventListener("mouseenter", () => moveInk(a));
+    a.addEventListener("mouseleave", () => moveInk(nav.querySelector("a.on")));
+  });
+
+  // headline: words rise in
+  const h1 = document.querySelector(".hero h1");
+  if (!calm) {
+    let i = 0;
+    [...h1.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(t => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+          const w = document.createElement("span"); w.className = "w"; w.textContent = t;
+          w.style.transitionDelay = (i++ * 70) + "ms"; frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeName === "EM") {
+        n.classList.add("w"); n.style.transitionDelay = (i++ * 70) + "ms";
+      }
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
+  }
+
+  // hero spotlight + card spotlight follow the pointer
+  const hero = document.querySelector(".hero");
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    hero.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    hero.style.setProperty("--my", (e.clientY - r.top) + "px");
+  });
+  document.querySelectorAll(".hat").forEach(c => c.addEventListener("pointermove", e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--x", (e.clientX - r.left) + "px");
+    c.style.setProperty("--y", (e.clientY - r.top) + "px");
+  }));
+
+  // staggered reveal for list children
+  document.querySelectorAll(".stag").forEach(g => {
+    [...g.children].forEach((c, k) => c.style.transitionDelay = Math.min(k, 8) * 60 + "ms");
+    if (!g.closest(".reveal")) reveal.observe(g);
+  });
+
 </script>
 </body>
 </html>
