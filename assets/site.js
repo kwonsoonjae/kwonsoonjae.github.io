@@ -1,5 +1,4 @@
-/* kwonsoonjae.github.io — chapters, motion, IS Atlas live data.
-   Without this file every section shows one after another (no-JS / print). */
+/* kwonsoonjae.github.io — nav, motion, IS Atlas live data. */
 (() => {
   const root = document.documentElement;
   root.classList.add("js");
@@ -48,114 +47,35 @@
     requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
   }
 
-  /* ---------- chapters ---------- */
-  const book = $("#book");
-  const chapters = $$(".chapter", book);
-  const keys = chapters.map(c => c.dataset.ch);
-  const navLinks = $$("[data-ch]", $("#nav")).concat($$("[data-ch]", $("#toc")));
-
-  // mobile bottom tab bar, built from the chapters
-  const tabbar = document.createElement("nav");
-  tabbar.className = "tabbar"; tabbar.setAttribute("aria-label", "Chapters");
-  tabbar.innerHTML = chapters.map((c, i) =>
-    `<a href="#${c.id || c.querySelector("section[id]").id}" data-ch="${c.dataset.ch}"><i>0${i + 1}</i>${c.dataset.short || c.dataset.label}</a>`).join("")
-    + `<a href="#contact" class="tb-contact">Contact</a>`;
-  document.body.appendChild(tabbar);
-  navLinks.push(...$$("[data-ch]", tabbar));
-
-  // sliding underline in the top nav
+  /* ---------- nav: current section + sliding underline ---------- */
   const nav = $("#nav");
+  const links = $$("a", nav);
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const ink = document.createElement("span"); ink.className = "nav-ink"; nav.appendChild(ink);
   const moveInk = a => {
     if (!a || !a.offsetWidth) { ink.style.opacity = 0; return; }
     ink.style.opacity = 1; ink.style.width = a.offsetWidth + "px";
     ink.style.transform = `translateX(${a.offsetLeft}px)`;
   };
-
-  let cur = -1;
-  const show = (i, { scroll = true, push = true } = {}) => {
-    if (i < 0 || i >= chapters.length) return;
-    const dir = i > cur ? 1 : -1;
-    if (i !== cur) {
-      chapters.forEach((c, j) => {
-        c.classList.toggle("on", j === i);
-        c.hidden = j !== i;
-      });
-      const c = chapters[i];
-      if (!calm && cur !== -1) {
-        c.classList.remove("enter-l", "enter-r"); void c.offsetWidth;
-        c.classList.add(dir > 0 ? "enter-r" : "enter-l");
-      }
-      $$(".reveal, .stag", c).forEach(el => el.classList.add("in"));
-      if (c.dataset.ch === "atlas") drawNet();
-    }
-    cur = i;
-    const key = keys[i];
-    navLinks.forEach(a => a.classList.toggle("on", a.dataset.ch === key));
-    moveInk($(`a[data-ch="${key}"]`, nav));
-    const tocOn = $(`#toc a[data-ch="${key}"]`);
-    if (tocOn) tocOn.scrollIntoView({ block: "nearest", inline: "center", behavior: calm ? "auto" : "smooth" });
-    const tbOn = $(`a[data-ch="${key}"]`, tabbar);
-    if (tbOn) tbOn.scrollIntoView({ block: "nearest", inline: "center" });
-    if (push) history.replaceState(null, "", "#" + (chapters[i].id || chapters[i].querySelector("section[id]").id));
-    if (scroll) {
-      const top = book.getBoundingClientRect().top + scrollY - 64;
-      if (scrollY > top || scroll === "force") scrollTo({ top, behavior: calm ? "auto" : "smooth" });
-    }
-  };
-
-  const chapterOf = id => {
-    const el = id && document.getElementById(id);
-    const c = el && (el.classList.contains("chapter") ? el : el.closest(".chapter"));
-    return c ? chapters.indexOf(c) : -1;
-  };
-  const toContact = () => $("#contact").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
-
-  document.addEventListener("click", e => {
-    const a = e.target.closest("a[href^='#']");
-    const next = e.target.closest(".ch-next");
-    if (next) {
-      e.preventDefault();
-      if (next.dataset.go === "contact") return toContact();
-      return show(keys.indexOf(next.dataset.go), { scroll: "force" });
-    }
-    if (!a) return;
-    const id = a.getAttribute("href").slice(1);
-    if (id === "contact") { e.preventDefault(); return toContact(); }
-    if (id === "top") return;
-    const i = chapterOf(id);
-    if (i >= 0) { e.preventDefault(); show(i, { scroll: a.closest(".toc") ? true : "force" }); }
+  const spy = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const i = secs.indexOf(e.target);
+    links.forEach((a, j) => a.classList.toggle("on", i === j));
+    moveInk(links[i]);
+  }), { rootMargin: "-30% 0px -60% 0px" });
+  secs.forEach(x => x && spy.observe(x));
+  links.forEach(a => {
+    a.addEventListener("mouseenter", () => moveInk(a));
+    a.addEventListener("mouseleave", () => moveInk($("a.on", nav)));
   });
-
-  addEventListener("hashchange", () => {
-    const i = chapterOf(location.hash.slice(1));
-    if (i >= 0 && i !== cur) show(i, { push: false });
-  });
-
-  // swipe between chapters on touch screens
-  let sx = 0, sy = 0, st = 0;
-  book.addEventListener("touchstart", e => {
-    const t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now();
-  }, { passive: true });
-  book.addEventListener("touchend", e => {
-    if (e.target.closest("input, .toc, .atlas-art")) return;
-    const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-    if (Date.now() - st < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 45)
-      show(cur + (dx < 0 ? 1 : -1), { scroll: "force" });
-  }, { passive: true });
-
-  // keyboard: left / right arrows when focus is not in a field
-  addEventListener("keydown", e => {
-    if (e.target.closest("input, textarea") || e.altKey || e.metaKey || e.ctrlKey) return;
-    if (e.key === "ArrowRight") show(cur + 1, { scroll: "force" });
-    if (e.key === "ArrowLeft") show(cur - 1, { scroll: "force" });
-  });
-
-  const start = chapterOf(location.hash.slice(1));
-  show(start >= 0 ? start : 0, { scroll: false, push: start >= 0 });
-  if (start >= 0) requestAnimationFrame(() => show(start, { scroll: "force", push: false }));
-  addEventListener("resize", () => moveInk($(`a[data-ch="${keys[cur]}"]`, nav)));
+  addEventListener("resize", () => moveInk($("a.on", nav)));
   onScroll();
+
+  /* draw the coauthor network when IS Atlas comes into view */
+  const art = $(".atlas-art");
+  if (art) new IntersectionObserver((es, o) => es.forEach(e => {
+    if (e.isIntersecting) { drawNet(); o.disconnect(); }
+  }), { threshold: .3 }).observe(art);
 
   /* ---------- IS Atlas: coauthor network draws itself ---------- */
   function drawNet() {
