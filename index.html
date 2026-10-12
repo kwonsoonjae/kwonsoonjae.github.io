@@ -455,9 +455,10 @@
   @media (max-width: 820px) {
     /* phones: compact hero, tighter section rhythm */
     section { padding-top: 64px; }
+    .sec-head { margin-bottom: 30px; }
     .record { margin-top: 64px; padding: 56px 0; }
     .hero { padding: 92px 0 8px; }
-    .hero-grid { gap: 28px; }
+    .hero-grid { gap: 64px; }
     .hero h1 { font-size: clamp(34px, 9.6vw, 44px); margin-bottom: 18px; }
     .hero-sub { font-size: 15.5px; }
     .sec-title { font-size: 34px; }
@@ -490,6 +491,13 @@
   @media (max-width: 920px) {
     .atlas-top { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   }
+  /* ---------- v4.11 ---------- */
+  .atlas .sec-num { text-transform: uppercase; font-size: 11px; letter-spacing: .22em; }
+  .btn .ic { width: 15px; height: 15px; flex: none; margin-left: -2px; }
+  .btn.ico::after { content: none; }
+  .btn.ghost.ico .ic { color: var(--faint); transition: color .2s; }
+  .btn.ghost.ico:hover .ic { color: var(--accent); }
+  .nw { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -524,13 +532,13 @@
         at <strong>Impact AI</strong>, where the same ideas have to work in production.
       </p>
       <div class="cta-row">
-        <a class="btn" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-        <a class="btn ghost" href="assets/Soonjae_Kwon_CV.pdf">Academic CV</a>
+        <a class="btn" href="assets/Soonjae_Kwon_CV.pdf" download>CV Download</a>
+        <a class="btn ghost" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
       </div>
     </div>
     <div class="portrait-block">
       <img src="assets/portrait.jpg" alt="Soonjae Kwon, upper-body portrait in a charcoal suit">
-      <div class="portrait-caption"><strong>Now</strong> &nbsp;KAIST · Impact AI</div>
+      <div class="portrait-caption"><strong>Now</strong> &nbsp;KAIST&nbsp;· Impact AI</div>
     </div>
   </div>
 </header>
@@ -540,19 +548,19 @@
     <div class="sec-head"><span class="sec-num">i.</span><span class="sec-title">Education</span></div>
     <ul class="journey stag">
       <li class="now">
-        <div class="j-when">March 2022 – February 2026</div>
+        <div class="j-when"><span class="nw">March&nbsp;2022&nbsp;–&nbsp;February&nbsp;2026</span></div>
         <div class="j-what">Ph.D. in Management Engineering, KAIST College of Business</div>
-        <div class="j-note">GPA 4.12/4.3 · Advisor: Sung-Hyuk Park.</div>
+        <div class="j-note">GPA 4.12/4.3&nbsp;· Advisor: Sung-Hyuk Park.</div>
       </li>
       <li>
-        <div class="j-when">March 2020 – February 2022</div>
+        <div class="j-when"><span class="nw">March&nbsp;2020&nbsp;–&nbsp;February&nbsp;2022</span></div>
         <div class="j-what">M.S. in Management Engineering, KAIST College of Business</div>
-        <div class="j-note">GPA 4.10/4.3 · KAIST Outstanding Thesis Award.</div>
+        <div class="j-note">GPA 4.10/4.3&nbsp;· KAIST Outstanding Thesis Award.</div>
       </li>
       <li>
-        <div class="j-when">March 2015 – February 2020</div>
+        <div class="j-when"><span class="nw">March&nbsp;2015&nbsp;–&nbsp;February&nbsp;2020</span></div>
         <div class="j-what">B.S. in Chemistry, KAIST</div>
-        <div class="j-note">GPA 3.82/4.3 · National Science &amp; Technology Scholarship.</div>
+        <div class="j-note">GPA 3.82/4.3&nbsp;· National Science &amp; Technology Scholarship.</div>
       </li>
     </ul>
   </div>
@@ -563,17 +571,17 @@
     <div class="sec-head"><span class="sec-num">ii.</span><span class="sec-title">Experience</span></div>
     <ul class="journey stag">
       <li class="now">
-        <div class="j-when">August 2026 — present</div>
+        <div class="j-when"><span class="nw">August&nbsp;2026&nbsp;—&nbsp;present</span></div>
         <div class="j-what">Adjunct Professor, KAIST College of Business</div>
         <div class="j-note">Teaching AI Business Strategy (Fall 2026).</div>
       </li>
       <li class="now">
-        <div class="j-when">May 2026 — present</div>
+        <div class="j-when"><span class="nw">May&nbsp;2026&nbsp;—&nbsp;present</span></div>
         <div class="j-what">Senior Researcher, Impact AI</div>
         <div class="j-note">Developing the AI behind ADOASIS, an advertising automation service, and industrial AI for partner firms.</div>
       </li>
       <li>
-        <div class="j-when">February – July 2023</div>
+        <div class="j-when">February – July&nbsp;2023</div>
         <div class="j-what">Lecturer, Ulsan National Institute of Science and Technology (UNIST)</div>
         <div class="j-note">Analytics Programming (rated 4.8/5.0) and Text Mining (4.7/5.0).</div>
       </li>
@@ -591,7 +599,7 @@
         <summary>
           <div>
             <div class="e-title">More, Shorter, Newer? How Monetization Reshapes Creator Strategy on YouTube Shorts</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Kitae Kim, Sung-Hyuk Park · <em>Internet Research</em>, 2026, 1–19<span class="chip">SSCI · JCR Top 10.7%</span></div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Kitae Kim, Sung-Hyuk Park&nbsp;· <em>Internet Research</em>, 2026, <span class="nw">1–19</span><span class="chip">SSCI&nbsp;· JCR Top 10.7%</span></div>
             <div class="e-hook">When creators start getting paid, what do they make?</div>
           </div>
           <div class="e-toggle"></div>
@@ -612,7 +620,7 @@
         <summary>
           <div>
             <div class="e-title">Beyond Homophily: AI-Driven Analysis of Facial and Personality Similarity Preferences in Online Dating</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Junkyu Jang, Sung-Hyuk Park · <em>Computers in Human Behavior</em>, 178, 2026, 108906<span class="chip">SSCI · JCR Top 2.4%</span></div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Junkyu Jang, Sung-Hyuk Park&nbsp;· <em>Computers in Human Behavior</em>, 178, 2026, 108906<span class="chip">SSCI&nbsp;· JCR Top 2.4%</span></div>
             <div class="e-hook">Do opposites attract, or do we swipe on ourselves?</div>
           </div>
           <div class="e-toggle"></div>
@@ -628,7 +636,7 @@
         <summary>
           <div>
             <div class="e-title">Beauty vs. Vibe: Deconstructing Visual Appeal in Online Dating with Large Multimodal Models</div>
-            <div class="e-meta">Junkyu Jang, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park · <em>Computers in Human Behavior</em>, 173, 2025, 108792<span class="chip">SSCI · JCR Top 2.4%</span></div>
+            <div class="e-meta">Junkyu Jang, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park&nbsp;· <em>Computers in Human Behavior</em>, 173, 2025, 108792<span class="chip">SSCI&nbsp;· JCR Top 2.4%</span></div>
             <div class="e-hook">What makes a profile photo actually work?</div>
           </div>
           <div class="e-toggle"></div>
@@ -648,7 +656,7 @@
         <summary>
           <div>
             <div class="e-title">VISAGE: Designing AI Artifacts for Dynamic Self-Presentation on Matching Platforms</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee · in preparation for <em>MIS Quarterly</em></div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee&nbsp;· in preparation for <em>MIS Quarterly</em></div>
             <div class="e-hook">Can AI design a better you?</div>
           </div>
           <div class="e-toggle"></div>
@@ -657,7 +665,7 @@
           <div class="e-lbl">Abstract (current draft)</div>
           <p>Online matching platforms constrain users to static profiles, producing a mismatch between the idealized self a user presents and the heterogeneous preferences of potential partners. Drawing on self-discrepancy theory, we conceptualize this mismatch as an interpersonal gap between one's presented self and what each partner desires to see, with AI serving as a mediator to resolve it. Following the design science perspective, we propose VISAGE, an AI system comprising two artifacts grounded in distinct human-AI collaboration principles. The augmentation artifact selects optimal images from users' existing assets, whereas the assemblage artifact generates new images tailored to individual partner preferences. Using data from a major online dating platform, we evaluate VISAGE at both the user and platform levels. At the user level, model-predicted ratings suggest that both artifacts improve attractiveness ratings. Their relative effectiveness varies with partner-preference heterogeneity and user impression management skill. At the platform level, agent-based simulations suggest that VISAGE enhances matching efficiency and reduces inequality in matching opportunities, although optimal deployment strategies depend on the platform's recommendation algorithm.</p>
           <div class="e-lbl">Earlier versions</div>
-          <p>WITS 2024, Bangkok · ICIS 2022, Copenhagen · WITS 2021, Austin.</p>
+          <p>WITS 2024, Bangkok&nbsp;· ICIS 2022, Copenhagen&nbsp;· WITS 2021, Austin.</p>
           <div class="e-lbl">Links</div>
           <div class="e-links"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6896599" target="_blank" rel="noopener">SSRN preprint</a></div>
         </div>
@@ -666,7 +674,7 @@
         <summary>
           <div>
             <div class="e-title">Utility Without Loyalty: The Decoupling of Generative AI Performance and User Retention in Digital Platforms</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Yeolib Kim, Youjung Jun, Seung Hyun Kim, Sung-Hyuk Park · in preparation for <em>Information Systems Research</em></div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Yeolib Kim, Youjung Jun, Seung Hyun Kim, Sung-Hyuk Park&nbsp;· in preparation for <em>Information Systems Research</em></div>
             <div class="e-hook">Can an AI instructor teach as well as a human?</div>
           </div>
           <div class="e-toggle"></div>
@@ -686,7 +694,7 @@
         <summary>
           <div>
             <div class="e-title">Adaptive Hotel Rate Prediction Using External Data: A Competitor-Driven Approach</div>
-            <div class="e-meta">Jungwoo Kim, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park · Proceedings of the 58th Hawaii International Conference on System Sciences (HICSS), 2025</div>
+            <div class="e-meta">Jungwoo Kim, <span class="me">Soonjae Kwon</span>, Sung-Hyuk Park&nbsp;· Proceedings of the 58th Hawaii International Conference on System Sciences (HICSS), 2025</div>
           </div>
           <div class="e-toggle"></div>
         </summary>
@@ -701,7 +709,7 @@
         <summary>
           <div>
             <div class="e-title">Learning Faces to Predict Matching Probability in an Online Matching Platform</div>
-            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee · Proceedings of the 43rd International Conference on Information Systems (ICIS), 2022</div>
+            <div class="e-meta"><span class="me">Soonjae Kwon</span>, Sung-Hyuk Park, Gene Moo Lee, Dongwon Lee&nbsp;· Proceedings of the 43rd International Conference on Information Systems (ICIS), 2022</div>
           </div>
           <div class="e-toggle"></div>
         </summary>
@@ -725,13 +733,13 @@
         <summary>
           <div>
             <div class="e-title">Strategies for Utilizing Generative AI in Digital Platforms for a Sustainable Society</div>
-            <div class="e-meta">National Research Foundation of Korea · September 2024 – February 2026</div>
+            <div class="e-meta">National Research Foundation of Korea&nbsp;· <span class="nw">September&nbsp;2024&nbsp;–&nbsp;February&nbsp;2026</span></div>
           </div>
           <div class="e-toggle"></div>
         </summary>
         <div class="e-body">
           <div class="e-lbl">Funding</div>
-          <p>₩30,000,000</p>
+          <p><span class="nw">₩30,000,000</span></p>
           <div class="e-lbl">Role</div>
           <p>Principal investigator</p>
           <div class="e-lbl">What I did</div>
@@ -742,7 +750,7 @@
         <summary>
           <div>
             <div class="e-title">Development of Intelligent Accumulation and Sharing Platform for Digital 3D Assets</div>
-            <div class="e-meta">Korea Creative Content Agency · April 2023 – December 2025</div>
+            <div class="e-meta">Korea Creative Content Agency&nbsp;· <span class="nw">April&nbsp;2023&nbsp;–&nbsp;December&nbsp;2025</span></div>
           </div>
           <div class="e-toggle"></div>
         </summary>
@@ -759,7 +767,7 @@
         <summary>
           <div>
             <div class="e-title">SaaS Development for AI-Driven Demand Forecasting Using Deep Learning</div>
-            <div class="e-meta">Seoul Business Agency · August 2022 – July 2023</div>
+            <div class="e-meta">Seoul Business Agency&nbsp;· <span class="nw">August&nbsp;2022&nbsp;–&nbsp;July&nbsp;2023</span></div>
           </div>
           <div class="e-toggle"></div>
         </summary>
@@ -776,13 +784,13 @@
         <summary>
           <div>
             <div class="e-title">Digital Innovation Capability Assessment and Activation Strategy for MCST</div>
-            <div class="e-meta">Ministry of Culture, Sports and Tourism · April 2022 – September 2022</div>
+            <div class="e-meta">Ministry of Culture, Sports and Tourism&nbsp;· <span class="nw">April&nbsp;2022&nbsp;–&nbsp;September&nbsp;2022</span></div>
           </div>
           <div class="e-toggle"></div>
         </summary>
         <div class="e-body">
           <div class="e-lbl">Funding</div>
-          <p>₩30,000,000</p>
+          <p><span class="nw">₩30,000,000</span></p>
           <div class="e-lbl">Role</div>
           <p>Lead research associate</p>
           <div class="e-lbl">What I did</div>
@@ -793,7 +801,7 @@
         <summary>
           <div>
             <div class="e-title">Deep Learning-Based Advertiser-Influencer Matching Engine Development</div>
-            <div class="e-meta">REVU Corporation · December 2020 – November 2022</div>
+            <div class="e-meta">REVU Corporation&nbsp;· <span class="nw">December&nbsp;2020&nbsp;–&nbsp;November&nbsp;2022</span></div>
           </div>
           <div class="e-toggle"></div>
         </summary>
@@ -824,7 +832,7 @@
         </dl>
         <form class="atlas-search" action="https://isatlas.org/search" method="get" target="_blank" role="search">
           <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input name="q" type="search" placeholder="Search IS papers" aria-label="Search IS Atlas" required>
+          <input name="q" type="search" placeholder="Search IS papers and authors" aria-label="Search IS Atlas" required>
           <button type="submit">Search</button>
         </form>
       </div>
@@ -836,7 +844,7 @@
     </div>
     <div class="atlas-live" aria-live="polite">
       <div>
-        <div class="atlas-lbl">Latest in ISR · MISQ · JMIS <span class="atlas-dot" hidden></span></div>
+        <div class="atlas-lbl">Latest in ISR&nbsp;· MISQ&nbsp;· JMIS <span class="atlas-dot" hidden></span></div>
         <ol class="atlas-list" id="atlas-latest"><li class="atlas-ph"><a href="https://isatlas.org/latest" target="_blank" rel="noopener">See this week&rsquo;s papers on IS Atlas</a></li></ol>
       </div>
       <div>
@@ -855,21 +863,21 @@
       <div>
         <div class="rec-label">Academic Service</div>
         <ul class="rec-list stag">
-          <li><strong>Program committee</strong><br>WITS 2025, 2026 · KrAIS Summer Workshop 2023</li>
-          <li><strong>Journal reviewer</strong><br>Decision Sciences · Information Systems Frontiers</li>
-          <li><strong>Conference reviewer</strong><br>ICIS · CIST · WITS · HICSS · PACIS · KrAIS Summer Workshop</li>
+          <li><strong>Program committee</strong><br>WITS 2025, 2026&nbsp;· KrAIS Summer Workshop 2023</li>
+          <li><strong>Journal reviewer</strong><br>Decision Sciences&nbsp;· Information Systems Frontiers</li>
+          <li><strong>Conference reviewer</strong><br>ICIS&nbsp;· CIST&nbsp;· WITS&nbsp;· HICSS&nbsp;· PACIS&nbsp;· KrAIS Summer Workshop</li>
         </ul>
       </div>
       <div>
         <div class="rec-label">Awards and Honors</div>
         <ul class="rec-list stag">
-          <li><strong>NRF Research Grant</strong><br>National Research Foundation of Korea · 2024 – 2026</li>
-          <li><strong>Travel Research Grant</strong><br>KAIST College of Business · 2023</li>
-          <li><strong>KAIST Outstanding Thesis Award</strong><br>KAIST College of Business · 2022</li>
-          <li><strong>Sim Hong-Ku Scholarship</strong><br>KAIST Department of Chemistry · 2019</li>
-          <li><strong>KoSEA Social Entrepreneurs Program</strong><br>Korea Social Enterprise Promotion Agency · 2018 · ₩30,000,000</li>
-          <li><strong>Runner-Up, KT&amp;G Startup Camp</strong><br>2018 · ₩20,000,000</li>
-          <li><strong>National Science &amp; Technology Scholarship</strong><br>Korea Student Aid Foundation · 2015 – 2018</li>
+          <li><strong>NRF Research Grant</strong><br>National Research Foundation of Korea&nbsp;· <span class="nw">2024&nbsp;–&nbsp;2026</span></li>
+          <li><strong>Travel Research Grant</strong><br>KAIST College of Business&nbsp;· 2023</li>
+          <li><strong>KAIST Outstanding Thesis Award</strong><br>KAIST College of Business&nbsp;· 2022</li>
+          <li><strong>Sim Hong-Ku Scholarship</strong><br>KAIST Department of Chemistry&nbsp;· 2019</li>
+          <li><strong>KoSEA Social Entrepreneurs Program</strong><br>Korea Social Enterprise Promotion Agency&nbsp;· 2018&nbsp;· <span class="nw">₩30,000,000</span></li>
+          <li><strong>Runner-Up, KT&amp;G Startup Camp</strong><br>2018&nbsp;· <span class="nw">₩20,000,000</span></li>
+          <li><strong>National Science &amp; Technology Scholarship</strong><br>Korea Student Aid Foundation&nbsp;· <span class="nw">2015&nbsp;–&nbsp;2018</span></li>
         </ul>
       </div>
     </div>
@@ -881,17 +889,17 @@
     <div class="sec-head"><span class="sec-num">vi.</span><span class="sec-title">Contact</span></div>
     <p class="contact-lede">Open to research ideas, lectures, and collaborations.<br><em>Email</em> is the best way to reach me.</p>
     <div class="cta-row">
-      <a class="btn" href="mailto:soonjaekwon@kaist.ac.kr">soonjaekwon@kaist.ac.kr</a>
-      <a class="btn ghost" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-      <a class="btn ghost" href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn ghost" href="assets/Soonjae_Kwon_CV.pdf">Academic CV</a>
+      <a class="btn ico" href="mailto:soonjaekwon@kaist.ac.kr"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>soonjaekwon@kaist.ac.kr</a>
+      <a class="btn ghost ico" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Google Scholar</a>
+      <a class="btn ghost ico" href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+      <a class="btn ghost ico" href="assets/Soonjae_Kwon_CV.pdf" download><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>CV Download</a>
     </div>
   </div>
 </section>
 <footer>
   <div class="wrap">
-    <span>© 2026 Soonjae Kwon · 권순재</span>
-    <span class="foot-links"><a href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a> · <a href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a> · <a href="mailto:soonjaekwon@kaist.ac.kr">Email</a></span>
+    <span>© 2026 Soonjae Kwon&nbsp;· 권순재</span>
+    <span class="foot-links"><a href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>&nbsp;· <a href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a>&nbsp;· <a href="mailto:soonjaekwon@kaist.ac.kr">Email</a></span>
   </div>
 </footer>
 
