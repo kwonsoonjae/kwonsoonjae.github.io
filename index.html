@@ -498,6 +498,10 @@
   .btn.ghost.ico .ic { color: var(--faint); transition: color .2s; }
   .btn.ghost.ico:hover .ic { color: var(--accent); }
   .nw { white-space: nowrap; }
+  @media (max-width: 400px) {
+    #contact .cta-row { flex-wrap: nowrap; gap: 6px; }
+    #contact .btn { padding: 8px 10px; font-size: 12.5px; gap: 7px; }
+  }
 </style>
 </head>
 <body>
@@ -532,8 +536,8 @@
         at <strong>Impact AI</strong>, where the same ideas have to work in production.
       </p>
       <div class="cta-row">
-        <a class="btn" href="assets/Soonjae_Kwon_CV.pdf" download>CV Download</a>
-        <a class="btn ghost" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="btn ico" href="assets/Soonjae_Kwon_CV.pdf"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Academic CV</a>
+        <a class="btn ghost ico" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Google Scholar</a>
       </div>
     </div>
     <div class="portrait-block">
@@ -889,17 +893,15 @@
     <div class="sec-head"><span class="sec-num">vi.</span><span class="sec-title">Contact</span></div>
     <p class="contact-lede">Open to research ideas, lectures, and collaborations.<br><em>Email</em> is the best way to reach me.</p>
     <div class="cta-row">
-      <a class="btn ico" href="mailto:soonjaekwon@kaist.ac.kr"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>soonjaekwon@kaist.ac.kr</a>
+      <a class="btn ico" href="mailto:soonjaekwon@kaist.ac.kr"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Email</a>
       <a class="btn ghost ico" href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Google Scholar</a>
       <a class="btn ghost ico" href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
-      <a class="btn ghost ico" href="assets/Soonjae_Kwon_CV.pdf" download><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>CV Download</a>
     </div>
   </div>
 </section>
 <footer>
   <div class="wrap">
     <span>© 2026 Soonjae Kwon&nbsp;· 권순재</span>
-    <span class="foot-links"><a href="https://scholar.google.com/citations?user=0NbMjwcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>&nbsp;· <a href="https://www.linkedin.com/in/soonjae-kwon/" target="_blank" rel="noopener">LinkedIn</a>&nbsp;· <a href="mailto:soonjaekwon@kaist.ac.kr">Email</a></span>
   </div>
 </footer>
 
