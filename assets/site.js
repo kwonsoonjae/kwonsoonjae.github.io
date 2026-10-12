@@ -2,7 +2,6 @@
 (() => {
   const root = document.documentElement;
   root.classList.add("js");
-  let drawn = false;
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (q, el = document) => el.querySelector(q);
   const $$ = (q, el = document) => [...el.querySelectorAll(q)];
@@ -71,31 +70,6 @@
   addEventListener("resize", () => moveInk($("a.on", nav)));
   onScroll();
 
-  /* draw the coauthor network when IS Atlas comes into view */
-  const art = $(".atlas-art");
-  if (art) new IntersectionObserver((es, o) => es.forEach(e => {
-    if (e.isIntersecting) { drawNet(); o.disconnect(); }
-  }), { threshold: .3 }).observe(art);
-
-  /* ---------- IS Atlas: coauthor network draws itself ---------- */
-  function drawNet() {
-    if (drawn || calm) return;
-    drawn = true;
-    const svg = $(".atlas-net");
-    if (!svg) return;
-    $$("line", svg).forEach((l, k) => {
-      const len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
-      l.style.strokeDasharray = len; l.style.strokeDashoffset = len;
-      l.style.transition = `stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1) ${300 + k * 22}ms`;
-    });
-    $$("circle", svg).forEach((c, k) => { c.style.transitionDelay = (k * 35) + "ms"; });
-    svg.classList.add("pre");
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      svg.classList.remove("pre"); svg.classList.add("drawn");
-      $$("line", svg).forEach(l => l.style.strokeDashoffset = 0);
-    }));
-  }
-
   /* ---------- IS Atlas live data (isatlas.org/showcase.json, CORS for this site only) ---------- */
   (async () => {
     try {
@@ -116,7 +90,23 @@
           const sp = t.spark ? `<svg viewBox="0 0 ${t.spark.w} ${t.spark.h}" preserveAspectRatio="none" aria-hidden="true"><polyline class="all" points="${esc(t.spark.all)}"/><polyline class="rec" points="${esc(t.spark.recent)}"/></svg>` : "";
           return `<li><a href="${esc(t.url || "https://isatlas.org/field")}" target="_blank" rel="noopener"><span class="n">${esc(t.name)}</span>${sp}<b>×${esc(t.ratio)}</b></a></li>`;
         }).join("");
-        if (d.recent && d.base) $("#atlas-cap").textContent = `share of papers, ${d.recent[0]}–${d.recent[1]} vs ${d.base[0]}–${d.base[1]}`;
+      }
+      if (d.fields && d.fields.length) {
+        // each journal: the years it covers on one shared axis (1954 to now), paper count at the end
+        const y0 = 1950, y1 = new Date().getFullYear(), span = y1 - y0;
+        $("#cov-rows").innerHTML = d.fields.map(f =>
+          `<div class="cov-grp">${esc(f.key)}</div>` + f.journals.map(j => {
+            const w = Math.max(2, (y1 - j.since) / span * 100);
+            return `<a class="cov-row" href="${esc(j.url)}" target="_blank" rel="noopener" title="${esc(j.name)}, ${esc(j.since)}–"><span class="cov-ab">${esc(j.abbr)}</span><span class="cov-bar"><i style="width:${w}%"></i></span><span class="cov-n">${fmt(j.n)}</span></a>`;
+          }).join("")).join("");
+        $("#cov-axis").innerHTML = [1960, 1980, 2000, 2020].map(t => `<span style="left:${(t - y0) / span * 100}%">${t}</span>`).join("");
+        const cov = $("#atlas-cov"); cov.hidden = false;
+        if (!calm) {
+          cov.classList.add("pre");
+          new IntersectionObserver((es, o) => es.forEach(e => {
+            if (e.isIntersecting) { requestAnimationFrame(() => cov.classList.remove("pre")); o.disconnect(); }
+          }), { threshold: .3 }).observe(cov);
+        }
       }
       if (d.updated) $("#atlas-foot").textContent = `Live from isatlas.org · digest of ${mon(d.updated)}`;
     } catch (e) { /* the static fallback stays */ }
