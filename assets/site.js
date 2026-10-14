@@ -73,8 +73,9 @@
   /* ---------- IS Atlas promo: load near view, play muted while on screen ---------- */
   const vid = $("#atlas-video");
   if (vid) {
-    const src = $("source", vid), snd = $(".av-sound");
-    const load = () => { if (!src.src) { src.src = src.dataset.src; vid.load(); } };
+    const srcs = $$("source", vid), snd = $(".av-sound");
+    let loaded = false;
+    const load = () => { if (loaded) return; loaded = true; srcs.forEach(x => x.src = x.dataset.src); vid.load(); };
     if (calm) { vid.controls = true; vid.preload = "metadata"; load(); }
     else {
       new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) load(); }), { rootMargin: "600px 0px" }).observe(vid);
