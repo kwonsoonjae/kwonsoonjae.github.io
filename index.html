@@ -490,28 +490,13 @@
     .contact-lede { font-size: 17px !important; }
     footer .wrap { flex-direction: column; gap: 6px; }
   }
-  /* ---------- v4.10: IS Atlas coverage chart ---------- */
+  /* ---------- IS Atlas layout ---------- */
   .atlas .sec-head { grid-template-columns: 1fr auto; }
   .atlas .sec-num { grid-column: 1 / -1; }
   .atlas-site { align-self: end; font-size: 13px; font-weight: 600; color: var(--muted); padding-bottom: 4px; transition: color .2s; }
   .atlas-site::after { content: " ↗"; color: var(--faint); }
   .atlas-site:hover { color: var(--accent); }
   .atlas-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; max-width: none; min-height: 0; align-items: start; }
-  .atlas-cov { padding-top: 4px; }
-  .cov-rows { display: grid; gap: 7px; }
-  .cov-grp { font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin: 10px 0 2px; }
-  .cov-grp:first-child { margin-top: 0; }
-  .cov-row { display: grid; grid-template-columns: 52px 1fr 54px; gap: 12px; align-items: center; font-size: 12.5px; }
-  .cov-row:hover .cov-bar i { background: var(--accent); }
-  .cov-row:hover .cov-ab { color: var(--accent); }
-  .cov-ab { font-weight: 700; letter-spacing: .04em; color: var(--ink); transition: color .2s; }
-  .cov-bar { position: relative; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, .04); }
-  .cov-bar i { position: absolute; top: 0; bottom: 0; right: 0; border-radius: 2px; background: rgba(220, 238, 177, .55);
-               transform-origin: 100% 50%; transition: transform 1s cubic-bezier(.2,.7,.2,1), background .2s; }
-  .atlas-cov.pre .cov-bar i { transform: scaleX(0); }
-  .cov-n { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .cov-axis { position: relative; height: 14px; margin: 8px 66px 0 64px; font-size: 10.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
-  .cov-axis span { position: absolute; top: 0; transform: translateX(-50%); }
   @media (max-width: 920px) {
     .atlas-top { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   }
@@ -526,6 +511,19 @@
     #contact .cta-row { flex-wrap: nowrap; gap: 6px; }
     #contact .btn { padding: 8px 10px; font-size: 12.5px; gap: 7px; }
   }
+  /* ---------- IS Atlas promo video ---------- */
+  .atlas-video { position: relative; justify-self: end; width: min(100%, 420px); aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden;
+                 border: 1px solid var(--line); background: #0d0d0d; }
+  .atlas-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .av-sound { position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer;
+              border: 1px solid rgba(255, 255, 255, .14); border-radius: 50%; background: rgba(10, 10, 10, .62); color: var(--ink);
+              backdrop-filter: blur(6px); transition: border-color .2s, color .2s; }
+  .av-sound:hover { border-color: var(--accent); color: var(--accent); }
+  .av-sound svg { width: 18px; height: 18px; }
+  .av-sound .on { display: none; }
+  .av-sound[aria-pressed="true"] .on { display: inline; }
+  .av-sound[aria-pressed="true"] .off { display: none; }
+  @media (max-width: 920px) { .atlas-video { justify-self: stretch; width: 100%; } }
 </style>
 </head>
 <body>
@@ -864,10 +862,13 @@
           <button type="submit">Search</button>
         </form>
       </div>
-      <div class="atlas-cov" id="atlas-cov" hidden>
-        <div class="atlas-lbl">Coverage</div>
-        <div class="cov-rows" id="cov-rows"></div>
-        <div class="cov-axis" id="cov-axis"></div>
+      <div class="atlas-video">
+        <video id="atlas-video" muted loop playsinline preload="none" poster="assets/isatlas-promo-poster.jpg" aria-label="IS Atlas promo video">
+          <source data-src="assets/isatlas-promo.mp4" type="video/mp4">
+        </video>
+        <button class="av-sound" type="button" aria-pressed="false" aria-label="Turn sound on">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="off" d="M17 9.5l5 5M22 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
       </div>
     </div>
     <div class="atlas-live" aria-live="polite">

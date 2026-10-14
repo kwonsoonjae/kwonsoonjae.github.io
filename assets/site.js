@@ -70,6 +70,26 @@
   addEventListener("resize", () => moveInk($("a.on", nav)));
   onScroll();
 
+  /* ---------- IS Atlas promo: load near view, play muted while on screen ---------- */
+  const vid = $("#atlas-video");
+  if (vid) {
+    const src = $("source", vid), snd = $(".av-sound");
+    const load = () => { if (!src.src) { src.src = src.dataset.src; vid.load(); } };
+    if (calm) { vid.controls = true; vid.preload = "metadata"; load(); }
+    else {
+      new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) load(); }), { rootMargin: "600px 0px" }).observe(vid);
+      new IntersectionObserver(es => es.forEach(e => {
+        if (e.intersectionRatio >= .5) { load(); vid.play().catch(() => {}); } else vid.pause();
+      }), { threshold: [0, .5] }).observe(vid);
+    }
+    snd.addEventListener("click", () => {
+      vid.muted = !vid.muted;
+      snd.setAttribute("aria-pressed", String(!vid.muted));
+      snd.setAttribute("aria-label", vid.muted ? "Turn sound on" : "Turn sound off");
+      if (!vid.muted) { load(); vid.play().catch(() => {}); }
+    });
+  }
+
   /* ---------- IS Atlas live data (isatlas.org/showcase.json, CORS for this site only) ---------- */
   (async () => {
     try {
@@ -90,23 +110,6 @@
           const sp = t.spark ? `<svg viewBox="0 0 ${t.spark.w} ${t.spark.h}" preserveAspectRatio="none" aria-hidden="true"><polyline class="all" points="${esc(t.spark.all)}"/><polyline class="rec" points="${esc(t.spark.recent)}"/></svg>` : "";
           return `<li><a href="${esc(t.url || "https://isatlas.org/field")}" target="_blank" rel="noopener"><span class="n">${esc(t.name)}</span>${sp}<b>×${esc(t.ratio)}</b></a></li>`;
         }).join("");
-      }
-      if (d.fields && d.fields.length) {
-        // each journal: the years it covers on one shared axis (1954 to now), paper count at the end
-        const y0 = 1950, y1 = new Date().getFullYear(), span = y1 - y0;
-        $("#cov-rows").innerHTML = d.fields.map(f =>
-          `<div class="cov-grp">${esc(f.key)}</div>` + f.journals.map(j => {
-            const w = Math.max(2, (y1 - j.since) / span * 100);
-            return `<a class="cov-row" href="${esc(j.url)}" target="_blank" rel="noopener" title="${esc(j.name)}, ${esc(j.since)}–"><span class="cov-ab">${esc(j.abbr)}</span><span class="cov-bar"><i style="width:${w}%"></i></span><span class="cov-n">${fmt(j.n)}</span></a>`;
-          }).join("")).join("");
-        $("#cov-axis").innerHTML = [1960, 1980, 2000, 2020].map(t => `<span style="left:${(t - y0) / span * 100}%">${t}</span>`).join("");
-        const cov = $("#atlas-cov"); cov.hidden = false;
-        if (!calm) {
-          cov.classList.add("pre");
-          new IntersectionObserver((es, o) => es.forEach(e => {
-            if (e.isIntersecting) { requestAnimationFrame(() => cov.classList.remove("pre")); o.disconnect(); }
-          }), { threshold: .3 }).observe(cov);
-        }
       }
       if (d.updated) $("#atlas-foot").textContent = `Live from isatlas.org · digest of ${mon(d.updated)}`;
     } catch (e) { /* the static fallback stays */ }
