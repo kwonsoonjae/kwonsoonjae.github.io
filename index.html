@@ -524,6 +524,14 @@
   .av-sound[aria-pressed="true"] .on { display: inline; }
   .av-sound[aria-pressed="true"] .off { display: none; }
   @media (max-width: 920px) { .atlas-video { justify-self: stretch; width: 100%; } }
+  /* ---------- IS Atlas: video left, text + latest right ---------- */
+  .atlas-top { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 64px; margin-bottom: 0; }
+  .atlas-video { justify-self: start; }
+  .atlas-intro { padding-top: 4px; }
+  .atlas-stats { margin-bottom: 36px; }
+  .atlas-latest .atlas-list { margin-bottom: 12px; }
+  .atlas-latest .atlas-list a { grid-template-columns: 48px 1fr auto; }
+  @media (max-width: 920px) { .atlas-top { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
 </style>
 </head>
 <body>
@@ -849,19 +857,6 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">Side project</span><span class="sec-title">IS Atlas</span><a class="atlas-site" href="https://isatlas.org/" target="_blank" rel="noopener">isatlas.org</a></div>
     <div class="atlas-top">
-      <div class="atlas-intro">
-        <p class="atlas-sub">A public research map of the top IS journals that I build and run. New papers, research trends, and coauthor networks, updated every week.</p>
-        <dl class="atlas-stats">
-          <div><dt>Journals</dt><dd data-k="n_journals">9</dd></div>
-          <div><dt>Papers</dt><dd data-k="n_papers">24,000+</dd></div>
-          <div><dt>Authors</dt><dd data-k="n_authors">25,000+</dd></div>
-        </dl>
-        <form class="atlas-search" action="https://isatlas.org/search" method="get" target="_blank" role="search">
-          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input name="q" type="search" placeholder="Search IS papers and authors" aria-label="Search IS Atlas" required>
-          <button type="submit">Search</button>
-        </form>
-      </div>
       <div class="atlas-video">
         <video id="atlas-video" muted loop playsinline preload="none" poster="assets/isatlas-promo-poster.jpg" aria-label="IS Atlas promo video">
           <source data-src="assets/isatlas-promo.av1.mp4" type='video/mp4; codecs="av01.0.08M.08, opus"'>
@@ -871,18 +866,20 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="off" d="M17 9.5l5 5M22 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
       </div>
-    </div>
-    <div class="atlas-live" aria-live="polite">
-      <div>
-        <div class="atlas-lbl">Latest in ISR&nbsp;· MISQ&nbsp;· JMIS <span class="atlas-dot" hidden></span></div>
-        <ol class="atlas-list" id="atlas-latest"><li class="atlas-ph"><a href="https://isatlas.org/latest" target="_blank" rel="noopener">See this week&rsquo;s papers on IS Atlas</a></li></ol>
+      <div class="atlas-intro">
+        <p class="atlas-sub">A public research map of the top IS journals that I build and run. New papers, research trends, and coauthor networks, updated every week.</p>
+        <dl class="atlas-stats">
+          <div><dt>Journals</dt><dd data-k="n_journals">9</dd></div>
+          <div><dt>Papers</dt><dd data-k="n_papers">24,000+</dd></div>
+          <div><dt>Authors</dt><dd data-k="n_authors">25,000+</dd></div>
+        </dl>
+        <div class="atlas-latest" aria-live="polite">
+          <div class="atlas-lbl">Latest in ISR&nbsp;· MISQ&nbsp;· JMIS <span class="atlas-dot" hidden></span></div>
+          <ol class="atlas-list" id="atlas-latest"><li class="atlas-ph"><a href="https://isatlas.org/latest" target="_blank" rel="noopener">See this week&rsquo;s papers on IS Atlas</a></li></ol>
+          <div class="atlas-foot" id="atlas-foot">Live from isatlas.org</div>
+        </div>
       </div>
-      <div>
-        <div class="atlas-lbl">Fastest-rising topics</div>
-        <ol class="atlas-rise" id="atlas-rising"><li class="atlas-ph"><a href="https://isatlas.org/field" target="_blank" rel="noopener">Research trends on IS Atlas</a></li></ol>
-      </div>
     </div>
-    <div class="atlas-foot" id="atlas-foot">Live from isatlas.org</div>
   </div>
 </section>
 <!-- ================= RECORD ================= -->
