@@ -246,6 +246,10 @@
   .rec-list .me { border-bottom: 1px solid var(--accent); }
   .rec-list em { font-style: normal; }
   .rec-list .chip { margin-left: 6px; vertical-align: 1px; }
+  .rec-sub { list-style: none; margin-top: 4px; }
+  .rec-sub li { position: relative; padding: 2px 0 2px 14px; border: 0; }
+  .rec-sub li:first-child { border-top: 0; }
+  .rec-sub li::before { content: ""; position: absolute; left: 2px; top: 0.85em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
   .rec-gap { margin-top: 34px; }
 
   /* ---------- contact ---------- */
@@ -907,9 +911,9 @@
       <div>
         <div class="rec-label">Academic Service</div>
         <ul class="rec-list stag">
-          <li><strong>Program Committee</strong><br>WITS 2025, 2026&nbsp;· KrAIS Summer Workshop 2023</li>
-          <li><strong>Journal Reviewer</strong><br>Computers in Human Behavior&nbsp;· Decision Sciences&nbsp;· Information Systems Frontiers&nbsp;· Korean Management Review</li>
-          <li><strong>Conference Reviewer</strong><br>ICIS&nbsp;· CIST&nbsp;· WITS&nbsp;· HICSS&nbsp;· PACIS&nbsp;· KrAIS Summer Workshop</li>
+          <li><strong>Program Committee</strong><ul class="rec-sub"><li>Workshop on Information Technologies and Systems</li><li>Association for Information Systems Korea Chapter Summer Workshop</li></ul></li>
+          <li><strong>Journal Reviewer</strong><ul class="rec-sub"><li>Computers in Human Behavior</li><li>Decision Sciences</li><li>Information Systems Frontiers</li><li>Korean Management Review</li></ul></li>
+          <li><strong>Conference Reviewer</strong><ul class="rec-sub"><li>International Conference on Information Systems</li><li>Conference on Information Systems and Technology</li><li>Workshop on Information Technologies and Systems</li><li>Hawaii International Conference on System Sciences</li><li>Pacific Asia Conference on Information Systems</li><li>Association for Information Systems Korea Chapter Summer Workshop</li></ul></li>
         </ul>
       </div>
       <div>
